@@ -1,0 +1,182 @@
+<list>
+  <com.fmt.Store>
+    <storeCode>vdf841</storeCode>
+    <managerCode>
+      <personCode>mit7pu</personCode>
+      <lastName>Felstead</lastName>
+      <firstName>Hendrik</firstName>
+      <addressP>
+        <street>2438 Norway Maple Lane</street>
+        <city>Lakehaven</city>
+        <state>OR</state>
+        <zip>54164</zip>
+        <country>AL</country>
+      </addressP>
+      <email>
+        <string>hfelstead0@oaic.gov.au</string>
+      </email>
+    </managerCode>
+    <address>
+      <street>775 Linden Street</street>
+      <city>Arboga</city>
+      <state>UA</state>
+      <zip>73224</zip>
+      <country>SE</country>
+    </address>
+  </com.fmt.Store>
+  <com.fmt.Store>
+    <storeCode>843fhe</storeCode>
+    <managerCode>
+      <personCode>x9hr16</personCode>
+      <lastName>Bercher</lastName>
+      <firstName>Gardiner</firstName>
+      <addressP>
+        <street>6 Loftsgordon Street</street>
+        <city>Dorland</city>
+        <state>TT</state>
+        <zip>92587</zip>
+        <country>WY</country>
+      </addressP>
+      <email>
+        <string>gbercher2@theglobeandmail.com</string>
+      </email>
+    </managerCode>
+    <address>
+      <street>0608 Grayhawk Street</street>
+      <city>Fort Myers</city>
+      <state>FL</state>
+      <zip>33994</zip>
+      <country>US</country>
+    </address>
+  </com.fmt.Store>
+  <com.fmt.Store>
+    <storeCode>mge8gh</storeCode>
+    <managerCode>
+      <personCode>x3mi36</personCode>
+      <lastName>Lowdwell</lastName>
+      <firstName>Bondie</firstName>
+      <addressP>
+        <street>51325 Oakridge Plaza</street>
+        <city>Arlington</city>
+        <state>NM</state>
+        <zip>15967</zip>
+        <country>SC</country>
+      </addressP>
+      <email>
+        <string>blowdwella@who.int</string>
+      </email>
+    </managerCode>
+    <address>
+      <street>1 Pepper Wood Park</street>
+      <city>Shchigry</city>
+      <state>RE</state>
+      <zip>39950</zip>
+      <country>RU</country>
+    </address>
+  </com.fmt.Store>
+  <com.fmt.Store>
+    <storeCode>wofg74</storeCode>
+    <managerCode reference="../../com.fmt.Store[2]/managerCode"/>
+    <address>
+      <street>7 Hayes Place</street>
+      <city>Newcastle</city>
+      <state>ID</state>
+      <zip>60657</zip>
+      <country>KN</country>
+    </address>
+  </com.fmt.Store>
+  <com.fmt.Store>
+    <storeCode>2rhybg</storeCode>
+    <managerCode reference="../../com.fmt.Store/managerCode"/>
+    <address>
+      <street>7 Barby Park</street>
+      <city>Poiares</city>
+      <state>FK</state>
+      <zip>518344</zip>
+      <country>PT</country>
+    </address>
+  </com.fmt.Store>
+  <com.fmt.Store>
+    <storeCode>e3544f</storeCode>
+    <managerCode reference="../../com.fmt.Store[2]/managerCode"/>
+    <address>
+      <street>23977 Carberry Alley</street>
+      <city>Zebrzydowice</city>
+      <state>TP</state>
+      <zip>43410</zip>
+      <country>PL</country>
+    </address>
+  </com.fmt.Store>
+  <com.fmt.Store>
+    <storeCode>drf1sd</storeCode>
+    <managerCode reference="../../com.fmt.Store[2]/managerCode"/>
+    <address>
+      <street>680 Leroy Lane</street>
+      <city>Pushkin</city>
+      <state>ST</state>
+      <zip>196627</zip>
+      <country>RU</country>
+    </address>
+  </com.fmt.Store>
+  <com.fmt.Store>
+    <storeCode>1ew84f</storeCode>
+    <managerCode>
+      <personCode>t3liq2</personCode>
+      <lastName>Pavia</lastName>
+      <firstName>Clim</firstName>
+      <addressP>
+        <street>233 Dwight Park</street>
+        <city>Valbury</city>
+        <state>FR</state>
+        <zip>66200</zip>
+        <country>GP</country>
+      </addressP>
+      <email>
+        <string>cpavia6@ask.com</string>
+      </email>
+    </managerCode>
+    <address>
+      <street>700 Warbler Alley</street>
+      <city>Bungo Takada shi</city>
+      <state>PL</state>
+      <zip>870617</zip>
+      <country>JP</country>
+    </address>
+  </com.fmt.Store>
+  <com.fmt.Store>
+    <storeCode>1rg48e</storeCode>
+    <managerCode>
+      <personCode>qc6uid</personCode>
+      <lastName>Squibbs</lastName>
+      <firstName>Clemmie</firstName>
+      <addressP>
+        <street>65 High Crossing Court</street>
+        <city>Rosville</city>
+        <state>FM</state>
+        <zip>17477</zip>
+        <country>RO</country>
+      </addressP>
+      <email>
+        <string>csquibbs4@psu.edu</string>
+      </email>
+    </managerCode>
+    <address>
+      <street>700 Warbler Alley</street>
+      <city>Santa Monica</city>
+      <state>CA</state>
+      <zip>49861</zip>
+      <country>KL</country>
+    </address>
+  </com.fmt.Store>
+  <com.fmt.Store>
+    <storeCode>e51f4e</storeCode>
+    <managerCode reference="../../com.fmt.Store[8]/managerCode"/>
+    <address>
+      <street>30019 Mcbride Crossing</street>
+      <city>Las Vegas</city>
+      <state>SC</state>
+      <zip>11095</zip>
+      <country>PH</country>
+    </address>
+  </com.fmt.Store>
+</list>

@@ -1,0 +1,91 @@
+<list>
+  <com.fmt.Equipment>
+    <code>3ceiq6</code>
+    <type>E</type>
+    <name>ATV</name>
+    <model>Commander 400cc</model>
+  </com.fmt.Equipment>
+  <com.fmt.Equipment>
+    <code>ii0wm9</code>
+    <type>E</type>
+    <name>Trailers</name>
+    <model>MCOS 455</model>
+  </com.fmt.Equipment>
+  <com.fmt.Equipment>
+    <code>oqofr4</code>
+    <type>E</type>
+    <name>Fertilizer Spreaders</name>
+    <model>T20</model>
+  </com.fmt.Equipment>
+  <com.fmt.Equipment>
+    <code>68ksks</code>
+    <type>E</type>
+    <name>Harrow</name>
+    <model>CAD1000</model>
+  </com.fmt.Equipment>
+  <com.fmt.Equipment>
+    <code>98a0wI</code>
+    <type>E</type>
+    <name>Seeder</name>
+    <model>BET56</model>
+  </com.fmt.Equipment>
+  <com.fmt.Product>
+    <code>b9fzk6</code>
+    <type>Fuel</type>
+    <name>P</name>
+    <unit>liter</unit>
+    <unitPrice>15.25</unitPrice>
+  </com.fmt.Product>
+  <com.fmt.Product>
+    <code>1xt0su</code>
+    <type>Pesticides</type>
+    <name>P</name>
+    <unit>gallons</unit>
+    <unitPrice>25.0</unitPrice>
+  </com.fmt.Product>
+  <com.fmt.Product>
+    <code>07924a4</code>
+    <type>Seeds</type>
+    <name>P</name>
+    <unit>kilos</unit>
+    <unitPrice>50.0</unitPrice>
+  </com.fmt.Product>
+  <com.fmt.Product>
+    <code>0sE3hxp</code>
+    <type>Protective Gear</type>
+    <name>P</name>
+    <unit>pounds</unit>
+    <unitPrice>500.0</unitPrice>
+  </com.fmt.Product>
+  <com.fmt.Product>
+    <code>f1r8t44</code>
+    <type>Livestock feed</type>
+    <name>P</name>
+    <unit>bag</unit>
+    <unitPrice>10.0</unitPrice>
+  </com.fmt.Product>
+  <com.fmt.Service>
+    <code>3fr54d3</code>
+    <type>S</type>
+    <name>Marketing</name>
+    <hourlyRate>75.0</hourlyRate>
+  </com.fmt.Service>
+  <com.fmt.Service>
+    <code>dc4ef4e</code>
+    <type>S</type>
+    <name>Farm Consulting Services</name>
+    <hourlyRate>250.0</hourlyRate>
+  </com.fmt.Service>
+  <com.fmt.Service>
+    <code>341fcdb</code>
+    <type>S</type>
+    <name>Agricultural extension services</name>
+    <hourlyRate>100.25</hourlyRate>
+  </com.fmt.Service>
+  <com.fmt.Service>
+    <code>d4r1c7d</code>
+    <type>S</type>
+    <name>Packaging services</name>
+    <hourlyRate>350.5</hourlyRate>
+  </com.fmt.Service>
+</list>

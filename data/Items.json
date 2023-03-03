@@ -1,0 +1,91 @@
+[
+  {
+    "model": "Commander 400cc",
+    "code": "3ceiq6",
+    "type": "E",
+    "name": "ATV"
+  },
+  {
+    "model": "MCOS 455",
+    "code": "ii0wm9",
+    "type": "E",
+    "name": "Trailers"
+  },
+  {
+    "model": "T20",
+    "code": "oqofr4",
+    "type": "E",
+    "name": "Fertilizer Spreaders"
+  },
+  {
+    "model": "CAD1000",
+    "code": "68ksks",
+    "type": "E",
+    "name": "Harrow"
+  },
+  {
+    "model": "BET56",
+    "code": "98a0wI",
+    "type": "E",
+    "name": "Seeder"
+  },
+  {
+    "unit": "liter",
+    "unitPrice": 15.25,
+    "code": "b9fzk6",
+    "type": "Fuel",
+    "name": "P"
+  },
+  {
+    "unit": "gallons",
+    "unitPrice": 25.0,
+    "code": "1xt0su",
+    "type": "Pesticides",
+    "name": "P"
+  },
+  {
+    "unit": "kilos",
+    "unitPrice": 50.0,
+    "code": "07924a4",
+    "type": "Seeds",
+    "name": "P"
+  },
+  {
+    "unit": "pounds",
+    "unitPrice": 500.0,
+    "code": "0sE3hxp",
+    "type": "Protective Gear",
+    "name": "P"
+  },
+  {
+    "unit": "bag",
+    "unitPrice": 10.0,
+    "code": "f1r8t44",
+    "type": "Livestock feed",
+    "name": "P"
+  },
+  {
+    "hourlyRate": 75.0,
+    "code": "3fr54d3",
+    "type": "S",
+    "name": "Marketing"
+  },
+  {
+    "hourlyRate": 250.0,
+    "code": "dc4ef4e",
+    "type": "S",
+    "name": "Farm Consulting Services"
+  },
+  {
+    "hourlyRate": 100.25,
+    "code": "341fcdb",
+    "type": "S",
+    "name": "Agricultural extension services"
+  },
+  {
+    "hourlyRate": 350.5,
+    "code": "d4r1c7d",
+    "type": "S",
+    "name": "Packaging services"
+  }
+]
