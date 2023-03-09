@@ -1,5 +1,8 @@
 package com.fmt;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 public class Lease extends Equipment{
 
 	private double leaseRate;
@@ -26,9 +29,21 @@ public class Lease extends Equipment{
 		return endDate;
 	}
 	
-	public double getTaxes() {
-		return  0;
+	
+	public Lease(Lease l, double leaseRate, String startDate, String endDate) {
+		super(l.getCode(), l.getType(), l.getName(), l.getModel());
+		this.leaseRate = l.getLeaseRate();
+		this.startDate = l.getStartDate();
+		this.endDate = l.getEndDate();
 	}
-	//TODO: proper get tax calculation
+	
+	public double getTaxes() {
+		return 0;
+	}
+	//TODO: proper get tax calculation, go through expected and find out 
+	// what you need for each class and what you can add and where as well as
+	//calculations and date time calculations
+	
+	
 	
 }

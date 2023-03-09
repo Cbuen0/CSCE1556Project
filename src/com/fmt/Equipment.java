@@ -28,4 +28,3 @@ public class Equipment extends Item {
 		return 0;
 	}
 }
-//TODO: proper get tax calculation

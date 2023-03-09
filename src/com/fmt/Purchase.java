@@ -17,7 +17,10 @@ public class Purchase extends Equipment {
 		return 0;
 	}
 	
-	
+	public Purchase(Purchase p, double purchasePrice) {
+		super(p.getCode(), p.getType(), p.getName(), p.getModel());
+		this.purchasePrice = purchasePrice;
+	}
 	
 	
 }

@@ -1,6 +1,10 @@
 package com.fmt;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Invoice {
 
@@ -9,7 +13,7 @@ public class Invoice {
 	private Person customerCode;
 	private Person salespersonCode;
 	private String invoiceDate;
-	private List<Item> listItem;
+	private Map<String, Item> listItem;
 
 	public Invoice(String invoiceCode, Store storeCode, Person customerCode, Person salespersonCode,
 			String invoiceDate) {
@@ -40,5 +44,19 @@ public class Invoice {
 	public String getInvoiceDate() {
 		return invoiceDate;
 	}
+	
+	public void addItem(Item item) {
+		listItem.put(item.getCode(), item);
+	}
 
+	public Invoice(Invoice i, Map<String, Item> listItem) {
+		super();
+		this.invoiceCode = i.getInvoiceCode();
+		this.storeCode = i.getStoreCode();
+		this.customerCode = i.getCustomerCode();
+		this.salespersonCode = i.getSalespersonCode();
+		this.invoiceDate = i.getInvoiceDate();
+		this.listItem = listItem;
+	}
+	
 }

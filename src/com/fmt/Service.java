@@ -10,6 +10,7 @@ package com.fmt;
 */
 public class Service extends Item{
 	private double hourlyRate;
+	private double hoursBilled;
 
 	public Service(String code, String type, String name, double hourlyRate) {
 		super(code, type, name);
@@ -27,4 +28,11 @@ public class Service extends Item{
 		return 0;
 	}
 	//TODO: proper get tax calculation
+	
+	public Service(Service s, double hoursBilled) {
+		super(s.getCode(), s.getType(), s.getName());
+		this.hourlyRate = s.getHourlyRate();
+		this.hoursBilled = hoursBilled;
+	}
+	
 }

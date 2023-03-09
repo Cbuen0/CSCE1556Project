@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
 
@@ -22,7 +24,7 @@ public class DataConverter {
 	 * @param writePath
 	 * @return
 	 */
-	public static String storesToJson(List<Store> stores, String writePath){
+	public static String storesToJson(HashMap<String, Store> stores, String writePath){
 		
 		GsonBuilder builder = new GsonBuilder();
 		String storesString = builder.setPrettyPrinting().create().toJson(stores);
@@ -61,7 +63,7 @@ public class DataConverter {
 	 * @param writePath
 	 * @return
 	 */
-	public static String itemsToJson(List<Item>items, String writePath) {
+	public static String itemsToJson(Map<String, Item>items, String writePath) {
 		
 		GsonBuilder builder = new GsonBuilder();
 		String itemsString = builder.setPrettyPrinting().create().toJson(items);
@@ -81,7 +83,7 @@ public class DataConverter {
 	 * @param writePath
 	 * @return
 	 */
-	public static String storesToXml(List<Store> stores, String writePath){
+	public static String storesToXml(HashMap<String, Store> stores, String writePath){
 		
 		XStream xstream = new XStream();
 		String xmlString = xstream.toXML(stores);
@@ -119,7 +121,7 @@ public class DataConverter {
 	 * @param writePath
 	 * @return
 	 */
-	public static String itemsToXml(List<Item>items, String writePath) {
+	public static String itemsToXml(Map<String, Item>items, String writePath) {
 		XStream xstream = new XStream();
 		String xmlString = xstream.toXML(items);
 		try {
@@ -138,11 +140,11 @@ public class DataConverter {
 		DataConverter.peopleToJson(people,"data/Persons.json");
 		DataConverter.peopleToXml(people,"data/Persons.xml");
 		
-		List<Store> store = LoadData.parseStoreFile(people);
+		HashMap<String, Store> store = LoadData.parseStoreFile(people);
 		DataConverter.storesToJson(store,"data/Stores.json");
 		DataConverter.storesToXml(store,"data/Stores.xml");
 		
-		List<Item> item = LoadData.parseItemFile();
+		Map<String, Item> item = LoadData.parseItemFile();
 		DataConverter.itemsToJson(item,"data/Items.json");
 		DataConverter.itemsToXml(item,"data/Items.xml");
 	}
