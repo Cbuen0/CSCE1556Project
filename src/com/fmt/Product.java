@@ -12,8 +12,8 @@ public class Product extends Item {
 	private double unitPrice;
 	private int quantity;
 
-	public Product(String code, String name, String type, String unit, double unitPrice) {
-		super(code, type, name);
+	public Product(String code, String name, String unit, double unitPrice) {
+		super(code, name);
 		this.unit = unit;
 		this.unitPrice = unitPrice;
 	}
@@ -28,7 +28,7 @@ public class Product extends Item {
 
 	@Override
 	public String toString() {
-		return this.getCode() + " " + this.getType() + " " + this.getName() + " " + unit + " " + unitPrice + " ";
+		return this.getCode() + " " + this.getName() + " " + unit + " " + unitPrice + " ";
 	}
 
 	public double getTaxes() {
@@ -36,10 +36,15 @@ public class Product extends Item {
 	}
 
 	public Product(Product p, int quantity) {
-		super(p.getCode(), p.getType(), p.getName());
+		super(p.getCode(), p.getName());
 		this.unit = p.getUnit();
 		this.unitPrice = p.getUnitPrice();
 		this.quantity = quantity;
+	}
 
+	@Override
+	public double getTotal() {
+		double total = unitPrice * quantity;
+		return total;
 	}
 }

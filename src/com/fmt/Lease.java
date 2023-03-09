@@ -1,17 +1,16 @@
 package com.fmt;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDate;
+import java.time.Period;
 
-public class Lease extends Equipment{
+public class Lease extends Equipment {
 
 	private double leaseRate;
 	private String startDate;
 	private String endDate;
-	
-	public Lease(String code, String type, String name, String model, double leaseRate, String startDate,
-			String endDate) {
-		super(code, type, name, model);
+
+	public Lease(String code, String name, String model, double leaseRate, String startDate, String endDate) {
+		super(code, name, model);
 		this.leaseRate = leaseRate;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -28,22 +27,39 @@ public class Lease extends Equipment{
 	public String getEndDate() {
 		return endDate;
 	}
-	
-	
+
+	public long getMonths() {
+		LocalDate startDate = LocalDate.parse(this.startDate);
+		LocalDate endDate = LocalDate.parse(this.endDate);
+		Period period = Period.between(startDate, endDate);
+		long months = period.toTotalMonths();
+
+		return months;
+	}
+
 	public Lease(Lease l, double leaseRate, String startDate, String endDate) {
-		super(l.getCode(), l.getType(), l.getName(), l.getModel());
+		super(l.getCode(), l.getName(), l.getModel());
 		this.leaseRate = l.getLeaseRate();
 		this.startDate = l.getStartDate();
 		this.endDate = l.getEndDate();
 	}
-	
+
 	public double getTaxes() {
-		return 0;
+		double taxes = 0;
+		if (getTotal() < 10000) {
+			taxes = 0;
+		}else if (getTotal() >= 10000 && getTotal() < 100000) {
+			taxes = 500;
+		}else if (getTotal() >= 100000) {
+			taxes = 1500;
+		}
+		return taxes;
 	}
-	//TODO: proper get tax calculation, go through expected and find out 
-	// what you need for each class and what you can add and where as well as
-	//calculations and date time calculations
+
+	public double getTotal() {
+		double total = leaseRate * getMonths();
+		return total;
+	}
 	
-	
-	
+
 }

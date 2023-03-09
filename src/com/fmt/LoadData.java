@@ -114,14 +114,14 @@ public class LoadData {
 
 	            if (type.equals("E")) {
 	                String model = tokens[3];
-	                e = new Equipment(code, type, name, model);
+	                e = new Equipment(code, name, model);
 	            } else if (type.equals("P")) {
 	                String unit = tokens[3];
 	                double unitPrice = Double.parseDouble(tokens[4]);
-	                e = new Product(code, type, name, unit, unitPrice);
+	                e = new Product(code, name, unit, unitPrice);
 	            } else if (type.equals("S")) {
 	                double hourlyrate = Double.parseDouble(tokens[3]);
-	                e = new Service(code, type, name, hourlyrate);
+	                e = new Service(code, name, hourlyrate);
 	            }
 	            itemMap.put(code, e);
 	        }
@@ -211,9 +211,7 @@ public class LoadData {
 					
 				}
 				invoiceMap.get(invoiceCode).addItem(h);
-				
 				// takes invoice code and gets invoice and add item to that invoice
-				
 				
 			}
 		}

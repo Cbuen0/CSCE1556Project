@@ -12,8 +12,8 @@ package com.fmt;
 public class Equipment extends Item {
 	private String model;
 
-	public Equipment(String code, String type, String name, String model) {
-		super(code, type, name);
+	public Equipment(String code, String name, String model) {
+		super(code, name);
 		this.model = model;
 	}
 	public String getModel() {
@@ -21,10 +21,14 @@ public class Equipment extends Item {
 	}
 	@Override
 	public String toString() {
-		return this.getCode() + " " + this.getType() + " " + this.getName() + " " + this.model;
+		return this.getCode() + " " + this.getName() + " " + this.model;
 	}
 	@Override
 	public double getTaxes() {
+		return 0;
+	}
+	@Override
+	public double getTotal() {
 		return 0;
 	}
 }

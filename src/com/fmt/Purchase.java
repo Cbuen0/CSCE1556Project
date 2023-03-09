@@ -4,8 +4,8 @@ public class Purchase extends Equipment {
 	
 	private double purchasePrice;
 
-	public Purchase(String code, String type, String name, String model, double purchasePrice) {
-		super(code, type, name, model);
+	public Purchase(String code,String name, String model, double purchasePrice) {
+		super(code, name, model);
 		this.purchasePrice = purchasePrice;
 	}
 
@@ -17,8 +17,12 @@ public class Purchase extends Equipment {
 		return 0;
 	}
 	
+	public double getTotal() {
+		return purchasePrice; 
+	}
+	
 	public Purchase(Purchase p, double purchasePrice) {
-		super(p.getCode(), p.getType(), p.getName(), p.getModel());
+		super(p.getCode(), p.getName(), p.getModel());
 		this.purchasePrice = purchasePrice;
 	}
 	

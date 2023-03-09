@@ -59,4 +59,9 @@ public class Invoice {
 		this.listItem = listItem;
 	}
 	
+	public String toString() {
+		return null;
+		//TODO: return toString
+	}
+	
 }

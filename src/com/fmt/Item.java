@@ -10,24 +10,22 @@ package com.fmt;
 */
 public abstract class Item {
 	private String code;
-	private String type;
 	private String name;
-	public Item(String code, String type, String name) {
+	
+	public Item(String code, String name) {
 		super();
 		this.code = code;
-		this.type = type;
 		this.name = name;
 	}
 	public String getCode() {
 		return code;
 	}
-	public String getType() {
-		return type;
-	}
+
 	public String getName() {
 		return name;
 	}
 	
 	public abstract double getTaxes();
+	public abstract double getTotal();
 	
 	}
