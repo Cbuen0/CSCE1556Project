@@ -48,9 +48,9 @@ public class Lease extends Equipment {
 		double taxes = 0;
 		if (getTotal() < 10000) {
 			taxes = 0;
-		}else if (getTotal() >= 10000 && getTotal() < 100000) {
+		} else if (getTotal() >= 10000 && getTotal() < 100000) {
 			taxes = 500;
-		}else if (getTotal() >= 100000) {
+		} else if (getTotal() >= 100000) {
 			taxes = 1500;
 		}
 		return taxes;
@@ -60,6 +60,15 @@ public class Lease extends Equipment {
 		double total = leaseRate * getMonths();
 		return total;
 	}
-	
 
+//////////////////////////////////////////////
+	public double getQuantity() {
+		return getMonths();
+	}
+
+	public double getPrice() {
+		return leaseRate;
+	}
+/////////////////////////////////////////////////////
+	
 }

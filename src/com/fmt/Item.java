@@ -28,4 +28,8 @@ public abstract class Item {
 	public abstract double getTaxes();
 	public abstract double getTotal();
 	
+	
+	///////////////////////////////////////
+	public abstract double getQuantity();
+	public abstract double getPrice();
 	}

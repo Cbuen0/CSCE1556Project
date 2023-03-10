@@ -47,5 +47,14 @@ public class Product extends Item {
 		double total = unitPrice * quantity;
 		return total;
 	}
-
+	
+	//////////////////////////////////////////////
+	public double getQuantity() {
+		return quantity;
+	}
+	
+	public double getPrice() {
+		return unitPrice;
+	}
+/////////////////////////////////////////////////////
 }

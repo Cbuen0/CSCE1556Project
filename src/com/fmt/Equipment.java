@@ -3,10 +3,9 @@ package com.fmt;
 /**
  * 
  * 
- *Author: Carlos Bueno & Sowparnika Sandhya
- *Date: 2023-02-24
+ * Author: Carlos Bueno & Sowparnika Sandhya Date: 2023-02-24
  *
- *This class represents Equipment-Item
+ * This class represents Equipment-Item
  *
  */
 public class Equipment extends Item {
@@ -16,19 +15,33 @@ public class Equipment extends Item {
 		super(code, name);
 		this.model = model;
 	}
+
 	public String getModel() {
 		return model;
 	}
-	@Override
-	public String toString() {
-		return this.getCode() + " " + this.getName() + " " + this.model;
-	}
+
 	@Override
 	public double getTaxes() {
 		return 0;
 	}
+
 	@Override
 	public double getTotal() {
 		return 0;
+	}
+	
+	/////////////////////////////////////////////
+	public double getQuantity() {
+		return 0;
+	}
+	
+	public double getPrice() {
+		return 0;
+	}
+////////////////////////////////////////////////////
+	
+	@Override
+	public String toString() {
+		return this.getCode() + " " + this.getName() + " " + this.model;
 	}
 }
