@@ -34,6 +34,10 @@ public class Person {
 	public String getFirstName() {
 		return firstName;
 	}
+	
+	public String getName() {
+		return lastName + ", " + firstName;
+	}
 	@Override
 	public String toString() {
 		return personCode + " " + lastName + " " + firstName+ " " + address + " " + email + " ";

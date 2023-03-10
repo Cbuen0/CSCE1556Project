@@ -168,7 +168,7 @@ public class LoadData {
 	}
 
 	
-	public static List<Invoice> parseInvoiceItemFile(Map<String, Invoice> invoiceMap) {
+	public static void parseInvoiceItemFile(Map<String, Invoice> invoiceMap) {
 		Map<String, Item> itemMap = parseItemFile();
 		
 		File f = new File("data/InvoiceItems.csv");
@@ -184,29 +184,29 @@ public class LoadData {
 			if (!line.trim().isEmpty()) {
 				String tokens[] = line.split(",");
 				String invoiceCode = tokens[0];
-				Item i = itemMap.get(tokens[1]);
+				Item t = itemMap.get(tokens[1]);
 				Item h = null;
 				
-				if(i instanceof Product) {
+				if(t instanceof Product) {
 					int quantityPurchased = Integer.parseInt(tokens[2]);
-					h = new Product((Product) i,quantityPurchased);
+					h = new Product((Product) t,quantityPurchased);
 				
-				}else if (i instanceof Service) {
+				}else if (t instanceof Service) {
 					double hoursBilled = Double.parseDouble(tokens[2]);
-					h = new Service((Service) i, hoursBilled);
+					h = new Service((Service) t, hoursBilled);
 				
-				}else if (i instanceof Equipment) {
+				}else if (t instanceof Equipment) {
 					String type = tokens[2];
 					
 					if(type.equalsIgnoreCase("P")) {
 						double purchasePrice = Double.parseDouble(tokens[3]);
-						h = new Purchase((Purchase) i, purchasePrice);
+						h = new Purchase((Purchase) t, purchasePrice);
 						
 					}else if(type.equalsIgnoreCase("L")) {
 						int rate = Integer.parseInt(tokens[3]);
 						String startDate = tokens[4];
 						String endDate = tokens[5];
-						h = new Lease((Lease) i, rate, startDate, endDate);
+						h = new Lease((Lease) t, rate, startDate, endDate);
 					}
 					
 				}
@@ -217,7 +217,7 @@ public class LoadData {
 		}
 		s.close();
 
-		return null;
+		return;
 	}
 	
 }
