@@ -59,5 +59,12 @@ public class Lease extends Equipment {
 		double total = Math.round((leaseRate * this.getDayOfLease()) /30.0 * 100) / 100.0;
 		return total;
 	}
+	
+	public String ItemInfotoString() {
+		return (String.format("\n%s     (Lease)     %s      \n 					\t\t\t%.2f", 
+				this.getCode(), 
+				this.getName(),
+				this.getTotal()));
+	}
 
 }

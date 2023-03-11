@@ -57,4 +57,12 @@ public class Product extends Item {
 		return getTotal() + getTaxes();
 
 	}
+
+	@Override
+	public String ItemInfotoString() {
+		return (String.format("\n%s    (Product)  %s\n 					\t\t\t%.2f", 
+				this.getCode(), 
+				this.getName(), 
+				this.getTotal()));
+	}
 }

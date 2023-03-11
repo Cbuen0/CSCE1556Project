@@ -38,6 +38,9 @@ public abstract class Item {
 	public double getGrandTotal() {
 		return getTaxes() + getTotal();
 	};
+	
+	public abstract String ItemInfotoString();
+	
 
 	// TODO: proper string method
 	public String toString() {

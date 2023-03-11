@@ -41,10 +41,12 @@ public class Invoice {
 	public String getDate() {
 		return date;
 	}
+	
 
 	public List<Item> getItems() {
 		return items;
 	}
+	
 
 	public void addItem(Item item) {
 		this.items.add(item);

@@ -37,9 +37,10 @@ public class Person {
 	public String getName() {
 		return lastName + "," + firstName;
 	}
-	@Override
-	public String toString() {
-		return lastName + "," + firstName + " (" + personCode + ": " + email + ")\n\t" + address;
+	
+	
+	public String PersonInfotoString() {
+		return (String.format("%s  (%s : [%s]\n  %s", this.getName(), this.getPersonCode(), this.email, this.address.DatetoString() ));
 	}
 }	
 

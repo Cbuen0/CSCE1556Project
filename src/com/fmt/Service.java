@@ -31,7 +31,7 @@ public class Service extends Item {
 		return hoursBilled;
 	}
 
-	@Override
+	
 	public String toString() {
 		return this.getCode() + " " + " " + this.getName() + " " + hourlyRate;
 	}
@@ -42,6 +42,14 @@ public class Service extends Item {
 
 	public double getTotal() {
 		return Math.round(hoursBilled * hourlyRate * 100) / 100.0;
+	}
+
+	public String ItemInfotoString() {
+		return (String.format("\n%s    (Service)    %s     \n 					\t\t\t%.2f", 
+				this.getCode(), 
+				this.getName(), 
+				this.getTotal()));
+		
 	}
 
 }

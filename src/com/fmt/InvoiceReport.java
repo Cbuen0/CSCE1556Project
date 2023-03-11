@@ -13,10 +13,10 @@ public class InvoiceReport {
 		StringBuilder totalReport = new StringBuilder();
 
 		totalReport.append(String.format("""
-				+---------------------------------------------------------------------------+
-				| Summary Report - By Total                                                 |
-				+---------------------------------------------------------------------------+
-				Invoice #  Store        Customer            Num Items        Tax     Total
+				+-------------------------------------------------------------------------------------------+
+				| Summary Report - By Total                                                                 |
+				+-------------------------------------------------------------------------------------------+
+				Invoice #  Store        Customer                       Num Items      Tax          Total
 				\n"""));
 
 		int numOfItem = 0;
@@ -29,7 +29,7 @@ public class InvoiceReport {
 			totalTax = totalTax + invoices.get(list).getTaxes();
 			grandTotal = grandTotal + invoices.get(list).getGrandTotal();
 
-			totalReport.append(String.format("%s     %s \t%s  \t\t%d \t%.2f               \t%.2f\n",
+			totalReport.append(String.format("%s       %9s       %-20s %9d           $%8.2f    $%11.2f\n",
 					invoices.get(list).getInvoiceCode(), invoices.get(list).getStore().getStoreCode(),
 					invoices.get(list).getCustomer().getName(), invoices.get(list).getItems().size(),
 					invoices.get(list).getTaxes(), invoices.get(list).getGrandTotal()));
@@ -40,13 +40,12 @@ public class InvoiceReport {
 				\n"""));
 
 		totalReport.append(String.format("%d %.2f %.2f", numOfItem, totalTax, grandTotal));
+		totalReport.append(String.format("\n"));
 
 		System.out.println(totalReport);
 
 	}
 
-	
-	
 	public static void salesSummaryReport(HashMap<String, Store> stores) {
 
 		StringBuilder totalReport = new StringBuilder();
@@ -55,7 +54,7 @@ public class InvoiceReport {
 				+---------------------------------------------------------------------------+
 				| Store Sales Summary Report                                                |
 				+---------------------------------------------------------------------------+
-				Store      Manager                        #Sales          Grand Total
+				Store      Manager                    #Sales          Grand Total
 				\n"""));
 
 		int numOfSales = 0;
@@ -63,13 +62,14 @@ public class InvoiceReport {
 
 		for (String list : stores.keySet()) {
 
-			// numOfSales = numOfSales + stores.get(list).getItems().size();
 			numOfSales = numOfSales + stores.get(list).invoices.size();
 			grandTotal = grandTotal + stores.get(list).getGrandTotal();
 
-			totalReport.append(String.format("%s     %s   \t%d    \t%.2f         \n",
-					stores.get(list).getStoreCode(), stores.get(list).getManager().getName(),
-					stores.get(list).invoices.size(), stores.get(list).getGrandTotal()));
+			totalReport.append(String.format("%s     %s   \t\t%d    \t\t%.2f         \n", 
+					stores.get(list).getStoreCode(),
+					stores.get(list).getManager().getName(), 
+					stores.get(list).invoices.size(),
+					stores.get(list).getGrandTotal()));
 
 		}
 
@@ -85,14 +85,68 @@ public class InvoiceReport {
 	}
 
 	public static void invoiceItemsSummary(HashMap<String, Invoice> invoices) {
-		for (Map.Entry<String, Invoice> invoice : invoices.entrySet()) {
-			Invoice inv = invoice.getValue();
-			System.out.println(inv.invToString() + "\n");
-			// print out item info
-			for (int i = 0; i < invoices.size(); i++) {
 
+		double subTotal = 0;
+		double totalTax = 0;
+		double grandTotal = 0;
+		StringBuilder totalReport = new StringBuilder();
+		
+		
+		
+//		totalReport.append(String.format("""
+//				Item                                                             Total
+//				+---------------------------------------------------------------------------+
+//				"""));
+
+		for (String list : invoices.keySet()) {
+
+			totalReport.append(String.format("\n\nInvoice   %s\n"
+											+"Store     %s\n"
+											+"Date      %s\n"
+											+"Customer:   \n"
+											+"%s"
+											+"\n\n"
+											+"\nSales Person:"
+											+"\n%s",
+											invoices.get(list).getInvoiceCode(),
+											invoices.get(list).getStore().getStoreCode(),
+											invoices.get(list).getDate(),
+											invoices.get(list).getCustomer().PersonInfotoString(),
+											invoices.get(list).getCustomer().PersonInfotoString()));
+			
+			totalReport.append(String.format("""
+					Item                                                             Total
+					+---------------------------------------------------------------------------+
+					"""));
+			
+			subTotal = subTotal + invoices.get(list).getTotal();
+			totalTax = totalTax + invoices.get(list).getTaxes();
+			grandTotal = grandTotal + invoices.get(list).getGrandTotal();
+			
+			for(Item item : invoices.get(list).getItems()) {
+				
+			totalReport.append(String.format("%s", 
+					item.ItemInfotoString()));
 			}
+			
+			totalReport.append(String.format(""" 
+					\n+---------------------------------------------------------------------------+
+					\n"""));
+			totalReport.append(String.format("%.2f\n  %.2f\n  %.2f", subTotal, totalTax, grandTotal));
+			
+			
 		}
+		System.out.println(totalReport);
+
+//		totalReport.append(String.format(""" 
+//				\n+---------------------------------------------------------------------------+
+//				\n"""));
+//		totalReport.append(String.format("%.2f\n  %.2f\n  %.2f", subTotal, totalTax, grandTotal));
+//		System.out.println(totalReport);
+//		
+		
+		
+		
 
 	}
 
@@ -109,7 +163,7 @@ public class InvoiceReport {
 
 		summaryReport(invoices);
 		salesSummaryReport(stores);
-//		invoiceItemsSummary(updatedInvoices);
+		invoiceItemsSummary(invoices);
 
 	}
 

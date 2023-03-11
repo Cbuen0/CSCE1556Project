@@ -41,9 +41,9 @@ public class Address {
 	public String getCountry() {
 		return country;
 	}
-	@Override
-	public String toString() {
-		return street + "\n\t" + city + " "+ state + " " + zip + " " + country;
+	
+	public String DatetoString() {
+		return (String.format("\t%s\n \t%s %s %s %s", this.getStreet(), this.getCity(), this.getState(), this.getZip(), this.getCountry()));
 	}
 	
 }

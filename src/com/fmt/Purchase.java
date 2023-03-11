@@ -27,4 +27,10 @@ public class Purchase extends Equipment {
 		return 0;
 	}
 	
+	public String ItemInfotoString() {
+		return (String.format("\n%s     (Purchase)    %s        \n 					\t\t\t%.2f",
+				this.getCode(),
+				this.getName(),
+				this.getTotal()));
+	}
 }

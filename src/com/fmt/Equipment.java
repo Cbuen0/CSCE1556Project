@@ -36,4 +36,10 @@ public class Equipment extends Item {
 		return this.getCode() + " " + " " + this.getName() + " " + this.model;
 	}
 
+	@Override
+	public String ItemInfotoString() {
+		return null;
+	}
+
+	
 }
