@@ -43,7 +43,7 @@ public class Address {
 	}
 	@Override
 	public String toString() {
-		return street + " " + city + " "+ state + " " + zip + " " + country;
+		return street + "\n\t" + city + " "+ state + " " + zip + " " + country;
 	}
 	
 }

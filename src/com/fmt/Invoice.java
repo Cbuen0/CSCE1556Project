@@ -1,10 +1,7 @@
 package com.fmt;
 
-import java.io.File;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 public class Invoice {
 
@@ -13,16 +10,16 @@ public class Invoice {
 	private Person customer;
 	private Person salesManager;
 	private String date;
-	private Map<String, Item> mapItem;
+	private List<Item> items;
 
-	public Invoice(String invoiceCode, Store store, Person customer, Person salesManager,
-			String date) {
+	public Invoice(String invoiceCode, Store store, Person customer, Person salesManager, String date) {
 		super();
 		this.invoiceCode = invoiceCode;
 		this.store = store;
 		this.customer = customer;
 		this.salesManager = salesManager;
 		this.date = date;
+		this.items = new ArrayList<Item>();
 	}
 
 	public String getInvoiceCode() {
@@ -44,79 +41,65 @@ public class Invoice {
 	public String getDate() {
 		return date;
 	}
-	
-	public void addItem(Item item) {
-		mapItem.put(item.getCode(), item);
+
+	public List<Item> getItems() {
+		return items;
 	}
 
-	public Invoice(Invoice i, Map<String, Item> mapItem) {
+	public void addItem(Item item) {
+		this.items.add(item);
+	}
+
+	public Invoice(Invoice i, List<Item> listItem) {
 		super();
 		this.invoiceCode = i.getInvoiceCode();
 		this.store = i.getStore();
 		this.customer = i.getCustomer();
 		this.salesManager = i.getSalesManager();
 		this.date = i.getDate();
-		this.mapItem = mapItem;
+		this.items = listItem;
 	}
-	
-	
-	public String toStringHeader() {
-	    StringBuilder in = new StringBuilder();
-	    in.append("Invoice  #" + invoiceCode + "\n");
-	    in.append("Store    #" + store.getStoreCode() + "\n");
-	    in.append("Date     " + date);
-	    in.append(String.format("%s, %s", this.invoiceCode, this.salesManager));
-	    return in.toString();
+
+	public String invToString() {
+		StringBuilder in = new StringBuilder();
+		in.append("Invoice  #" + this.invoiceCode + "\n");
+		in.append("Store    #" + this.store.getStoreCode() + "\n");
+		in.append("Date      " + date);
+		in.append("\n");
+		in.append("\nCustomer:\n" + this.customer);
+		in.append("\n");
+		in.append("\nSales Person:\n" + this.salesManager);
+		return in.toString();
 	}
-	
-	//this is just a test i was doing to see if i could get the methods under testing to work
-	//it is called in invoice report which is giving an error
-	public String ContentsTesttoString() {
-		return (String.format("%s\t %s \t%s", this.invoiceCode, this.store.getStoreCode(), this.customer.getName(), this.getTax(), this.getTotal()));
+
+	public String toSummaryReportString() {
+		return (String.format("%s\t   %s \t%s \t%.2f \t%.2f", this.invoiceCode, this.store.getStoreCode(),
+				this.customer.getName(), this.getTaxes(), this.getTotal()));
 	}
-	
-	//To run program without testing use this method in the invoice report toString method
-	public String SummaryReporttoString() {
-		return (String.format("%s\t %s \t%s", this.invoiceCode, this.store.getStoreCode(), this.customer.getName()));
+
+	public String toSalesSummaryReportString() {
+		return (String.format("%s\t   %s \t", this.store.getStoreCode(), this.salesManager.getName()));
 	}
-	
-	public String StoreSalestoString() {
-		return (String.format("%s \t\t%s ", this.store.getStoreCode(), this.salesManager.getName()));
-	}
-	
-	////////////////////////////////////////////////////TESTING
-	public double getTax() {
-		double totalTax = 0.0;
-		for(Item item : mapItem.values()) {
-			double tax = item.getTaxes();
-			totalTax += tax;
+
+	public double getTaxes() {
+		double totalTax = 0;
+		for (int i = 0; i < items.size(); i++) {
+			totalTax += items.get(i).getTaxes();
 		}
 		return totalTax;
 	}
 
 	public double getTotal() {
-		double totalPrice = 0.0;
-		for(Item item : mapItem.values()) {
-			double price = item.getPrice();
-			totalPrice += price * item.getQuantity();
+		double totalPrice = 0;
+		for (int i = 0; i < items.size(); i++) {
+			totalPrice += items.get(i).getTotal();
 		}
+		
 		return totalPrice;
 	}
 	
-	public int getTotalItems() {
-		int totalItems = 0;
-		for(Item item : mapItem.values()) {
-			totalItems += item.getQuantity();
-		}
-		return totalItems;
-	}
-	//////////////////////////////////////////////////////////
-	//iterate over Item map and pull out tax and price and total them
-	//make a getTax method for them
-	
-	//TODO: ask question about output, says that mapItem is null 
-	//Ask where to put the toStrings for the person, and item details
-	//ask if the methods above are wrong bc error keeps popping up with them saying
-	//mapItem is null
-	//How to find the num Items in the summary report 
+	public double getGrandTotal() {
+		return getTaxes() + getTotal();
+	};
+
 }

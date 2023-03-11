@@ -1,39 +1,30 @@
 package com.fmt;
 
 public class Purchase extends Equipment {
-
+	
+	private String contract;
 	private double purchasePrice;
 
-	public Purchase(String code, String name, String model, double purchasePrice) {
-		super(code, name, model);
+	public Purchase(String code, String name, String type, String model, String contract, double purchasePrice) {
+		super(code, name, type, model);
 		this.purchasePrice = purchasePrice;
+		this.contract = contract;
 	}
 
+	public String getContract() {
+		return this.contract;
+	}
+	
 	public double getPurchasePrice() {
-		return purchasePrice;
+		return this.purchasePrice;
 	}
-
+	
+	public double getTotal() {
+		return this.getPurchasePrice();
+	}
+	
 	public double getTaxes() {
 		return 0;
 	}
-
-	public double getTotal() {
-		return purchasePrice;
-	}
-
-	public Purchase(Purchase p, double purchasePrice) {
-		super(p.getCode(), p.getName(), p.getModel());
-		this.purchasePrice = purchasePrice;
-	}
-
-//////////////////////////////////////////////
-	public double getQuantity() {
-		return 1;
-	}
-
-	public double getPrice() {
-		return purchasePrice;
-	}
-/////////////////////////////////////////////////////
-
+	
 }

@@ -61,6 +61,8 @@ public class LoadData {
 	 * @return
 	 */
 	public static HashMap<String, Store> parseStoreFile(Map<String, Person> mapPerson) {
+		// mapPerson = mapPersonFile();
+		// List<Store> result = new ArrayList<Store>();
 		HashMap<String, Store> storeMap = new HashMap<String, Store>();
 		File f = new File("data/Stores.csv");
 		try (Scanner s = new Scanner(f)) {
@@ -68,6 +70,7 @@ public class LoadData {
 			while (s.hasNext()) {
 				String line = s.nextLine();
 				if (!line.trim().isEmpty()) {
+					// Store e = null;
 					String tokens[] = line.split(",");
 					String storeCode = tokens[0];
 					Person managerCode = mapPerson.get(tokens[1]);
@@ -76,8 +79,11 @@ public class LoadData {
 					String state = tokens[4];
 					String zip = tokens[5];
 					String country = tokens[6];
+
 					Address a = new Address(street, city, state, zip, country);
+
 					Store store = new Store(storeCode, managerCode, a);
+					// result.add(e);
 					storeMap.put(storeCode, store);
 				}
 			}
@@ -94,48 +100,45 @@ public class LoadData {
 	 * @return
 	 */
 	public static Map<String, Item> parseItemFile() {
-	    Map<String, Item> itemMap = new HashMap<>();
-	    File f = new File("data/Items.csv");
-	    Scanner s = null;
-	    try {
-	        s = new Scanner(f);
-	    } catch (Exception e) {
-	        throw new RuntimeException(e);
-	    }
-	    s.nextLine();
-	    while (s.hasNext()) {
-	        String line = s.nextLine();
-	        if (!line.trim().isEmpty()) {
-	            Item e = null;
-	            String tokens[] = line.split(",");
-	            String code = tokens[0];
-	            String type = tokens[1];
-	            String name = tokens[2];
+		Map<String, Item> itemMap = new HashMap<>();
+		File f = new File("data/Items.csv");
+		Scanner s = null;
+		try {
+			s = new Scanner(f);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		s.nextLine();
+		while (s.hasNext()) {
+			String line = s.nextLine();
+			if (!line.trim().isEmpty()) {
+				Item e = null;
+				String tokens[] = line.split(",");
+				String code = tokens[0];
+				String type = tokens[1];
+				String name = tokens[2];
 
-	            if (type.equals("E")) {
-	                String model = tokens[3];
-	                e = new Equipment(code, name, model);
-	            } else if (type.equals("P")) {
-	                String unit = tokens[3];
-	                double unitPrice = Double.parseDouble(tokens[4]);
-	                e = new Product(code, name, unit, unitPrice);
-	            } else if (type.equals("S")) {
-	                double hourlyrate = Double.parseDouble(tokens[3]);
-	                e = new Service(code, name, hourlyrate);
-	            }
-	            itemMap.put(code, e);
-	        }
-	    }
-	    s.close();
+				if (type.equals("E")) {
+					String model = tokens[3];
+					e = new Equipment(code, name, type, model);
+				} else if (type.equals("P")) {
+					String unit = tokens[3];
+					double unitPrice = Double.parseDouble(tokens[4]);
+					e = new Product(code, name, type, unit, unitPrice);
+				} else if (type.equals("S")) {
+					double hourlyrate = Double.parseDouble(tokens[3]);
+					e = new Service(code, name, type, hourlyrate);
+				}
+				itemMap.put(code, e);
+			}
+		}
+		s.close();
 
-	    return itemMap;
+		return itemMap;
 	}
 
-
-	public static HashMap<String, Invoice> parseInvoiceDataFile() {
-
-		HashMap<String, Person> persons = mapPersonFile();
-		HashMap<String, Store> stores = parseStoreFile(persons);
+	public static HashMap<String, Invoice> parseInvoiceDataFile(HashMap<String, Store> stores,
+			HashMap<String, Person> persons) {
 
 		HashMap<String, Invoice> invoiceMap = new HashMap<String, Invoice>();
 
@@ -155,11 +158,12 @@ public class LoadData {
 				Store store = stores.get(tokens[1]);
 				Person customer = persons.get(tokens[2]);
 				Person salesperson = persons.get(tokens[3]);
-				
 				String invoiceDate = tokens[4];
 
 				Invoice i = new Invoice(invoiceCode, store, customer, salesperson, invoiceDate);
 				invoiceMap.put(invoiceCode, i);
+				store.addInvoice(i);
+
 			}
 		}
 		s.close();
@@ -167,12 +171,11 @@ public class LoadData {
 		return invoiceMap;
 	}
 
-	
-	public static void parseInvoiceItemFile(Map<String, Invoice> invoiceMap) {
+	public static List<Item> parseInvoiceItemFile(HashMap<String, Invoice> invoiceMap) {
 		Map<String, Item> itemMap = parseItemFile();
-		
 		File f = new File("data/InvoiceItems.csv");
 		Scanner s = null;
+		List<Item> invItem = new ArrayList<>();
 		try {
 			s = new Scanner(f);
 		} catch (Exception e) {
@@ -184,40 +187,43 @@ public class LoadData {
 			if (!line.trim().isEmpty()) {
 				String tokens[] = line.split(",");
 				String invoiceCode = tokens[0];
-				Item t = itemMap.get(tokens[1]);
-				Item h = null;
-				
-				if(t instanceof Product) {
-					int quantityPurchased = Integer.parseInt(tokens[2]);
-					h = new Product((Product) t,quantityPurchased);
-				
-				}else if (t instanceof Service) {
+				Item i = itemMap.get(tokens[1]);
+				Item listInvItem = null;
+
+				if (i instanceof Product) {
+					double quantityPurchased = Double.parseDouble(tokens[2]);
+					listInvItem = new Product(i.getCode(), i.getName(), i.getType(), ((Product) i).getUnit(),
+							((Product) i).getUnitPrice(), quantityPurchased);
+
+				} else if (i instanceof Service) {
 					double hoursBilled = Double.parseDouble(tokens[2]);
-					h = new Service((Service) t, hoursBilled);
-				
-				}else if (t instanceof Equipment) {
-					String type = tokens[2];
-					
-					if(type.equalsIgnoreCase("P")) {
+					listInvItem = new Service(i.getCode(), i.getName(), i.getType(), ((Service) i).getHourlyRate(),
+							hoursBilled);
+
+					// see if line above works
+				} else if (i instanceof Equipment) {
+					String contract = tokens[2];
+
+					if (contract.equalsIgnoreCase("P")) {
 						double purchasePrice = Double.parseDouble(tokens[3]);
-						h = new Purchase((Purchase) t, purchasePrice);
-						
-					}else if(type.equalsIgnoreCase("L")) {
-						int rate = Integer.parseInt(tokens[3]);
+						listInvItem = new Purchase(i.getCode(), i.getName(), i.getType(), ((Equipment) i).getModel(),
+								contract, purchasePrice);
+
+					} else if (contract.equalsIgnoreCase("L")) {
+						double rate = Double.parseDouble(tokens[3]);
 						String startDate = tokens[4];
 						String endDate = tokens[5];
-						h = new Lease((Lease) t, rate, startDate, endDate);
+						listInvItem = new Lease(i.getCode(), i.getName(), i.getType(), ((Equipment) i).getModel(),
+								contract, rate, startDate, endDate);
 					}
-					
 				}
-				invoiceMap.get(invoiceCode).addItem(h);
-				// takes invoice code and gets invoice and add item to that invoice
-				
+				invItem.add(listInvItem);
+				invoiceMap.get(invoiceCode).addItem(listInvItem);
+
 			}
+
 		}
 		s.close();
-
-		return;
+		return invItem;
 	}
-	
 }

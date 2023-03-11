@@ -1,7 +1,7 @@
 package com.fmt;
 
 /**
- * 
+ * **
  * 
  * Author: Carlos Bueno & Sowparnika Sandhya Date: 2023-02-24
  *
@@ -11,8 +11,9 @@ package com.fmt;
 public class Equipment extends Item {
 	private String model;
 
-	public Equipment(String code, String name, String model) {
-		super(code, name);
+	public Equipment(String code, String name, String type, String model) {
+		super(code, name, type);
+
 		this.model = model;
 	}
 
@@ -22,26 +23,17 @@ public class Equipment extends Item {
 
 	@Override
 	public double getTaxes() {
-		return 0;
+		return 0.0;
 	}
 
 	@Override
 	public double getTotal() {
-		return 0;
+		return 0.0;
 	}
-	
-	/////////////////////////////////////////////
-	public double getQuantity() {
-		return 0;
-	}
-	
-	public double getPrice() {
-		return 0;
-	}
-////////////////////////////////////////////////////
-	
+
 	@Override
 	public String toString() {
-		return this.getCode() + " " + this.getName() + " " + this.model;
+		return this.getCode() + " " + " " + this.getName() + " " + this.model;
 	}
+
 }

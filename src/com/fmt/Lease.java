@@ -1,21 +1,29 @@
 package com.fmt;
 
 import java.time.LocalDate;
-import java.time.Period;
+//import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 public class Lease extends Equipment {
 
+	private String contract;
 	private double leaseRate;
 	private String startDate;
 	private String endDate;
 
-	public Lease(String code, String name, String model, double leaseRate, String startDate, String endDate) {
-		super(code, name, model);
+	public Lease(String code, String name, String type, String model, String contract, double leaseRate, String startDate,
+			String endDate) {
+		super(code, name, type, model);
 		this.leaseRate = leaseRate;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.contract = contract;
 	}
 
+	public String getContract() {
+		return contract;
+	}
+	
 	public double getLeaseRate() {
 		return leaseRate;
 	}
@@ -28,28 +36,19 @@ public class Lease extends Equipment {
 		return endDate;
 	}
 
-	public long getMonths() {
-		LocalDate startDate = LocalDate.parse(this.startDate);
-		LocalDate endDate = LocalDate.parse(this.endDate);
-		Period period = Period.between(startDate, endDate);
-		long months = period.toTotalMonths();
-
-		return months;
+	public int getDayOfLease() {
+		return (int) ChronoUnit.DAYS.between(LocalDate.parse(this.startDate), LocalDate.parse(this.endDate)) + 1;
 	}
 
-	public Lease(Lease l, double leaseRate, String startDate, String endDate) {
-		super(l.getCode(), l.getName(), l.getModel());
-		this.leaseRate = l.getLeaseRate();
-		this.startDate = l.getStartDate();
-		this.endDate = l.getEndDate();
-	}
-
+	// proper get tax calculation
 	public double getTaxes() {
 		double taxes = 0;
 		if (getTotal() < 10000) {
 			taxes = 0;
+
 		} else if (getTotal() >= 10000 && getTotal() < 100000) {
 			taxes = 500;
+
 		} else if (getTotal() >= 100000) {
 			taxes = 1500;
 		}
@@ -57,18 +56,8 @@ public class Lease extends Equipment {
 	}
 
 	public double getTotal() {
-		double total = leaseRate * getMonths();
+		double total = Math.round((leaseRate * this.getDayOfLease()) /30.0 * 100) / 100.0;
 		return total;
 	}
 
-//////////////////////////////////////////////
-	public double getQuantity() {
-		return getMonths();
-	}
-
-	public double getPrice() {
-		return leaseRate;
-	}
-/////////////////////////////////////////////////////
-	
 }

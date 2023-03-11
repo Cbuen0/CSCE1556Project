@@ -10,12 +10,20 @@ package com.fmt;
 public class Product extends Item {
 	private String unit;
 	private double unitPrice;
-	private int quantity;
+	private double quantity;
 
-	public Product(String code, String name, String unit, double unitPrice) {
-		super(code, name);
+	public Product(String code, String name, String type, String unit, double unitPrice) {
+		super(code, name, type);
 		this.unit = unit;
 		this.unitPrice = unitPrice;
+	}
+
+	public Product(String code, String name, String type, String unit, double unitPrice, double quantity) {
+		super(code, name, type);
+		this.unit = unit;
+		this.unitPrice = unitPrice;
+		this.quantity = quantity;
+
 	}
 
 	public String getUnit() {
@@ -25,36 +33,28 @@ public class Product extends Item {
 	public double getUnitPrice() {
 		return unitPrice;
 	}
+	
+	public double getQuantity() {
+		return quantity;
+	}
 
 	@Override
 	public String toString() {
-		return this.getCode() + " " + this.getName() + " " + unit + " " + unitPrice + " ";
+		return this.getCode() + " " + " " + this.getName() + " " + unit + " " + unitPrice + " ";
 	}
 
+	@Override
 	public double getTaxes() {
-		return unitPrice * .0715;
-	}
-
-	public Product(Product p, int quantity) {
-		super(p.getCode(), p.getName());
-		this.unit = p.getUnit();
-		this.unitPrice = p.getUnitPrice();
-		this.quantity = quantity;
+		return Math.round(getTotal() * 0.0715 * 100)/ 100.0;
 	}
 
 	@Override
 	public double getTotal() {
-		double total = unitPrice * quantity;
-		return total;
+		return Math.round(unitPrice * quantity * 100)/100.0;
 	}
-	
-	//////////////////////////////////////////////
-	public double getQuantity() {
-		return quantity;
+
+	public double getGrandTotal() {
+		return getTotal() + getTaxes();
+
 	}
-	
-	public double getPrice() {
-		return unitPrice;
-	}
-/////////////////////////////////////////////////////
 }

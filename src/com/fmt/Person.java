@@ -34,13 +34,12 @@ public class Person {
 	public String getFirstName() {
 		return firstName;
 	}
-	
 	public String getName() {
-		return lastName + ", " + firstName;
+		return lastName + "," + firstName;
 	}
 	@Override
 	public String toString() {
-		return"";
+		return lastName + "," + firstName + " (" + personCode + ": " + email + ")\n\t" + address;
 	}
 }	
 
