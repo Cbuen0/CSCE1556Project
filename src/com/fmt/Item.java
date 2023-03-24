@@ -11,7 +11,9 @@ public abstract class Item {
 	private String code;
 	private String name;
 	private String type;
-
+////////////////REMOVE GET TYPE^^^^^///////////////////////////
+	
+	
 	public Item(String code, String name,String type) {
 		super();
 		this.code = code;
@@ -41,9 +43,4 @@ public abstract class Item {
 	
 	public abstract String ItemInfotoString();
 	
-
-	// TODO: proper string method
-	public String toString() {
-		return String.format("penis");
-	}
 }

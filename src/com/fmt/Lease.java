@@ -1,4 +1,10 @@
 package com.fmt;
+/**
+* Author: Carlos Bueno, Sowparnika Ssandhya
+* Date: 2023-03-10
+* 
+* This class models a lease for equipment. 
+*/
 
 import java.time.LocalDate;
 //import java.time.Period;
@@ -40,7 +46,6 @@ public class Lease extends Equipment {
 		return (int) ChronoUnit.DAYS.between(LocalDate.parse(this.startDate), LocalDate.parse(this.endDate)) + 1;
 	}
 
-	// proper get tax calculation
 	public double getTaxes() {
 		double taxes = 0;
 		if (getTotal() < 10000) {
@@ -61,9 +66,13 @@ public class Lease extends Equipment {
 	}
 	
 	public String ItemInfotoString() {
-		return (String.format("\n%s     (Lease)     %s      \n 					\t\t\t%.2f", 
+		return (String.format("\n%s     (Lease)     %s      \n  %d days	(%s --> %s) @ $%.2f / 30 days				\n\t\t\t\t\t\t\t      $ %.2f", 
 				this.getCode(), 
 				this.getName(),
+				this.getDayOfLease(),
+				this.getStartDate(),
+				this.getEndDate(),
+				this.getLeaseRate(),
 				this.getTotal()));
 	}
 

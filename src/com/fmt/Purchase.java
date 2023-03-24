@@ -1,5 +1,12 @@
 package com.fmt;
 
+/**
+* Author: Carlos Bueno, Sowparnika Ssandhya
+* Date: 2023-03-10
+* 
+* This class models a purchase for equipment. 
+*/
+
 public class Purchase extends Equipment {
 	
 	private String contract;
@@ -15,12 +22,13 @@ public class Purchase extends Equipment {
 		return this.contract;
 	}
 	
-	public double getPurchasePrice() {
-		return this.purchasePrice;
-	}
+	//EDIT THIS OUT WHEN SAFE
+//	public double getPurchasePrice() {
+//		return this.purchasePrice;
+//	}
 	
 	public double getTotal() {
-		return this.getPurchasePrice();
+		return this.purchasePrice;
 	}
 	
 	public double getTaxes() {

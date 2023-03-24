@@ -1,7 +1,13 @@
 package com.fmt;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -61,4 +67,38 @@ public class Store {
 		return String.format("%s \t   %s \t\t  %d \t\t$%8.2f", this.storeCode, this.manager.getName(),
 				this.invoices.size(), this.getGrandTotal());
 	}
+
+	//Compares person names and sorts by alphabetically 
+	public static HashMap<String, Store> sortByNames(HashMap<String, Store> hm) {
+
+		List<Map.Entry<String, Store>> list = new LinkedList<Map.Entry<String, Store>>(hm.entrySet());
+
+		Collections.sort(list, new Comparator<Map.Entry<String, Store>>() {
+			public int compare(Map.Entry<String, Store> o1, Map.Entry<String, Store> o2) {
+				int value;
+				value = o1.getValue().getManager().getLastName().compareTo(o2.getValue().getManager().getLastName());
+				if (value == 0) {
+					value = o1.getValue().getManager().getFirstName()
+							.compareTo(o2.getValue().getManager().getFirstName());
+				}
+				if (value == 0) {
+					if (o1.getValue().getGrandTotal() > o2.getValue().getGrandTotal()) {
+						value = -1;
+					} else if (o1.getValue().getGrandTotal() < o2.getValue().getGrandTotal()) {
+						return 1;
+					} else {
+						return 0;
+					}
+				}
+				return value;
+			}
+		});
+
+		HashMap<String, Store> temp = new LinkedHashMap<String, Store>();
+		for (Map.Entry<String, Store> aa : list) {
+			temp.put(aa.getKey(), aa.getValue());
+		}
+		return temp;
+	}
+
 }

@@ -60,9 +60,12 @@ public class Product extends Item {
 
 	@Override
 	public String ItemInfotoString() {
-		return (String.format("\n%s    (Product)  %s\n 					\t\t\t%.2f", 
+		return (String.format("\n%s    (Product)  %s\n 		%.2f @ $%.2f / %s		\n\t\t\t\t\t\t\t\t$ %.2f", 
 				this.getCode(), 
-				this.getName(), 
+				this.getName(),
+				this.getQuantity(),
+				this.getUnitPrice(),
+				this.getUnit(),
 				this.getTotal()));
 	}
 }

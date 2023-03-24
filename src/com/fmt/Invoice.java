@@ -1,7 +1,20 @@
 package com.fmt;
 
+/**
+* Author: Carlos Bueno, Sowparnika Ssandhya
+* Date: 2023-03-10
+* 
+* This class models the invoices of sales. 
+*/
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Invoice {
 
@@ -41,12 +54,10 @@ public class Invoice {
 	public String getDate() {
 		return date;
 	}
-	
 
 	public List<Item> getItems() {
 		return items;
 	}
-	
 
 	public void addItem(Item item) {
 		this.items.add(item);
@@ -62,7 +73,7 @@ public class Invoice {
 		this.items = listItem;
 	}
 
-	public String invToString() {
+	public String invtoString() {
 		StringBuilder in = new StringBuilder();
 		in.append("Invoice  #" + this.invoiceCode + "\n");
 		in.append("Store    #" + this.store.getStoreCode() + "\n");
@@ -96,12 +107,38 @@ public class Invoice {
 		for (int i = 0; i < items.size(); i++) {
 			totalPrice += items.get(i).getTotal();
 		}
-		
+
 		return totalPrice;
 	}
-	
+
 	public double getGrandTotal() {
 		return getTaxes() + getTotal();
 	};
+
+	// Compares Totals and sorts by totals
+	public static HashMap<String, Invoice> sortByTotal(HashMap<String, Invoice> hm) {
+		
+		// Create a list from elements of HashMap
+		List<Map.Entry<String, Invoice>> list = new LinkedList<Map.Entry<String, Invoice>>(hm.entrySet());
+
+		// Sort the list
+		Collections.sort(list, new Comparator<Map.Entry<String, Invoice>>() {
+			public int compare(Map.Entry<String, Invoice> o1, Map.Entry<String, Invoice> o2) {
+				if (o1.getValue().getGrandTotal() > o2.getValue().getGrandTotal()) {
+					return -1;
+				} else if (o1.getValue().getGrandTotal() > o2.getValue().getGrandTotal()) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		});
+
+		HashMap<String, Invoice> temp = new LinkedHashMap<String, Invoice>();
+		for (Map.Entry<String, Invoice> aa : list) {
+			temp.put(aa.getKey(), aa.getValue());
+		}
+		return temp;
+	}
 
 }
