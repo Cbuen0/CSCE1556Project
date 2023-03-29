@@ -1,0 +1,74 @@
+use cbueno;
+
+
+-- Q1 get person code, last and first name
+Select personCode, lastName, firstName
+	From Person;
+    
+-- Q2 get major fields for every person including address NOT emails
+Select p.personId, p.lastName, p.firstName, p.personCode, a.*
+	From Person p 
+    Left Join Address a
+    ON p.addressId = a.addressId;
+    
+-- Q3 get email addresses of specific person
+Select p.personId, p.lastName, p.firstName, e.email
+	From Person p
+    Left Join Email e
+    On p.personId = e.personId
+    Where p.personId = 11;
+    
+-- Q4 change email address of a specific email record
+UPDATE Email
+SET email = 'mrKrabs123@gmail.com'
+WHERE emailId = 16;
+
+-- Q5 query to remove specific person record
+Delete From Address
+Where addressId = 1;
+
+Delete From Person
+Where personId = 1;
+
+-- Q6 query to get all items on specific invoice record
+Select t.date, t.invoiceCode, i.itemId, i.name, i.model, i.itemCode ,i.hourlyRate, v.purchasePrice, v.leaseRate, v.startDate, v.endDate, v.hoursBilled
+	From Item i
+    Join InvoiceItem v
+	Join Invoice t
+    On i.itemId = v.itemId and v.invoiceId = t.invoiceId
+    Where t.invoiceId = 1;
+    
+-- Q7 query to get all items purchased by specific person
+Select p.personId, p.lastName, p.firstName, v.itemId, v.name, v.model, t.purchasePrice, t.leaseRate, t.startDate, t.endDate, t.hoursBilled, v.hourlyRate
+	From Person p
+    Join Invoice i
+    Join InvoiceItem t
+    Join Item v
+    On p.personId = i.customerId and i.invoiceId = t.invoiceId and t.itemId = v.itemId
+    Where p.personId = 1;
+
+-- Q8 query to find total number of sales made at each store
+Select s.storeId, s.storeCode, count(invoiceId) as numberofSales
+	From Store s
+    Join Invoice i
+    On s.storeId = i.storeId
+    Group by s.storeId;
+
+-- Q9 query to find total number of sales made by each employee
+Select i.salespersonId, p.lastName, p.firstName, count(invoiceId) as numberofsales
+	From Person p
+    Join Invoice i 
+    On p.personId = i.salespersonId 
+    Group by p.personId;
+    
+-- Q10 query to find the subtotal charge of all products in each
+-- invoice, DO NOT INCLUDE TAXES --Select SUM(Colum) From Table
+Select i.invoiceId, Sum(quantity * unitPrice) as Subtotal
+	From InvoiceItem i
+    Join Item m
+    On i.itemId = m.itemId
+	Group by invoiceId;
+
+-- Q11 duplicate entries
+Select 
+
