@@ -24,14 +24,32 @@ SET email = 'mrKrabs123@gmail.com'
 WHERE emailId = 16;
 
 -- Q5 query to remove specific person record
-Delete From Address
-Where addressId = 1;
+Delete From Email
+Where personId = 3;
+
+Delete From InvoiceItem
+Where invoiceId in (Select invoiceId From Invoice 
+	Where salespersonId = 3 or customerId = 3 or storeId 
+	in (Select storeId From Store Where managerId = 3));
+
+Delete From Invoice
+Where salespersonId = 3;
+
+Delete From Invoice 
+Where customerId = 3;
+
+Delete From Invoice 
+Where storeId in (Select storeId From Store Where managerId = 3);
+
+Delete From Store
+Where managerId = 3;
 
 Delete From Person
-Where personId = 1;
+Where personId = 3;
 
 -- Q6 query to get all items on specific invoice record
-Select t.date, t.invoiceCode, i.itemId, i.name, i.model, i.itemCode ,i.hourlyRate, v.purchasePrice, v.leaseRate, v.startDate, v.endDate, v.hoursBilled
+Select t.date, t.invoiceCode, i.itemId, i.name, i.model, i.itemCode ,i.hourlyRate, 
+	   v.purchasePrice, v.leaseRate, v.startDate, v.endDate, v.hoursBilled
 	From Item i
     Join InvoiceItem v
 	Join Invoice t
@@ -39,7 +57,8 @@ Select t.date, t.invoiceCode, i.itemId, i.name, i.model, i.itemCode ,i.hourlyRat
     Where t.invoiceId = 1;
     
 -- Q7 query to get all items purchased by specific person
-Select p.personId, p.lastName, p.firstName, v.itemId, v.name, v.model, t.purchasePrice, t.leaseRate, t.startDate, t.endDate, t.hoursBilled, v.hourlyRate
+Select p.personId, p.lastName, p.firstName, v.itemId, v.name, v.model, t.purchasePrice,
+	   t.leaseRate, t.startDate, t.endDate, t.hoursBilled, v.hourlyRate
 	From Person p
     Join Invoice i
     Join InvoiceItem t
@@ -70,5 +89,17 @@ Select i.invoiceId, Sum(quantity * unitPrice) as Subtotal
 	Group by invoiceId;
 
 -- Q11 duplicate entries
-Select 
+Select v.invoiceId, i.name
+	From Item i 
+    Join InvoiceItem v
+    on i.itemId = v.itemId
+    Where i.type = 'P'
+    Group By v.invoiceId
+    Having count(i.itemCode)>1;
+    
+-- Q12 detect s potential instance of fraud where an employee  
+-- makes a sale to themselves salesperson = customer 
+Select invoiceId, customerId, salespersonId 
+	From Invoice
+    Where customerId = salespersonId;
 
