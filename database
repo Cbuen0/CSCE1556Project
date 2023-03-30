@@ -1,5 +1,4 @@
-
-use login;
+ use login;
 
 drop table if exists InvoiceItem;
 drop table if exists Item;
@@ -156,6 +155,8 @@ INSERT INTO Person(personId,personCode,lastName,firstName,addressId) VALUES (8,'
 INSERT INTO Person(personId,personCode,lastName,firstName,addressId) VALUES (9,'x3mi36','Lowdwell','Bondie',9);
 INSERT INTO Person(personId,personCode,lastName,firstName,addressId) VALUES (10,'2v5f6t','Papps','Theodore',10);
 INSERT INTO Person(personId,personCode,lastName,firstName,addressId) VALUES (11,'jf62we','Artois','Danni',11);
+INSERT INTO Person(personId,personCode,lastName,firstName,addressId) VALUES (12,'gh156','Danny','Tom',11);
+
 -- -----------------------------------------------------
 
 
@@ -203,7 +204,7 @@ INSERT INTO Store(storeId,storeCode,managerId,addressId) VALUES (10,'e51f4e',7,2
 INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (1,'INV001',1,1,2,'2022-03-17');
 INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (2,'INV002',6,8,5,'2022-05-29');
 INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (3,'INV003',4,11,9,'2022-10-01');
-INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (4,'INV004',7,7,6,'2022-07-09');
+INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (4,'INV004',7,12,6,'2022-07-09');
 INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (5,'INV001',1,1,1,'2022-03-17');
 -- -----------------------------------------------------
 
