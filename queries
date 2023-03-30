@@ -1,4 +1,4 @@
--- use cbueno;
+use login;
 
 -- Q1 get person code, last and first name
 Select personCode, lastName, firstName
