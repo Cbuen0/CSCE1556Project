@@ -1,5 +1,4 @@
-use cbueno;
-
+-- use cbueno;
 
 -- Q1 get person code, last and first name
 Select personCode, lastName, firstName
@@ -25,27 +24,27 @@ WHERE emailId = 16;
 
 -- Q5 query to remove specific person record
 Delete From Email
-Where personId = 3;
+Where personId = 12;
 
 Delete From InvoiceItem
 Where invoiceId in (Select invoiceId From Invoice 
-	Where salespersonId = 3 or customerId = 3 or storeId 
-	in (Select storeId From Store Where managerId = 3));
+	Where salespersonId = 12 or customerId = 12 or storeId 
+	in (Select storeId From Store Where managerId = 12));
 
 Delete From Invoice
-Where salespersonId = 3;
+Where salespersonId = 12;
 
 Delete From Invoice 
-Where customerId = 3;
+Where customerId = 12;
 
 Delete From Invoice 
-Where storeId in (Select storeId From Store Where managerId = 3);
+Where storeId in (Select storeId From Store Where managerId = 12);
 
 Delete From Store
-Where managerId = 3;
+Where managerId = 12;
 
 Delete From Person
-Where personId = 3;
+Where personId = 12;
 
 -- Q6 query to get all items on specific invoice record
 Select t.date, t.invoiceCode, i.itemId, i.name, i.model, i.itemCode ,i.hourlyRate, 
@@ -69,14 +68,14 @@ Select p.personId, p.lastName, p.firstName, v.itemId, v.name, v.model, t.purchas
 -- Q8 query to find total number of sales made at each store
 Select s.storeId, s.storeCode, count(invoiceId) as numberofSales
 	From Store s
-    Join Invoice i
+    Left Join Invoice i
     On s.storeId = i.storeId
     Group by s.storeId;
 
 -- Q9 query to find total number of sales made by each employee
-Select i.salespersonId, p.lastName, p.firstName, count(invoiceId) as numberofsales
+Select p.personId, p.lastName, p.firstName, count(invoiceId) as numberofsales
 	From Person p
-    Join Invoice i 
+    Left Join Invoice i 
     On p.personId = i.salespersonId 
     Group by p.personId;
     
