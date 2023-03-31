@@ -1,4 +1,4 @@
- use login;
+ use ssandhya;
 
 drop table if exists InvoiceItem;
 drop table if exists Item;
@@ -7,6 +7,29 @@ drop table if exists Store;
 drop table if exists Email;
 drop table if exists Person;
 drop table if exists Address;
+drop table if exists State;
+drop table if exists Country;
+
+
+-- -----------------------------------------------------
+-- Table Country
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Country(
+countryId INT Primary Key NOT NULL AUTO_INCREMENT,
+country varchar(45)
+);
+
+
+
+-- -----------------------------------------------------
+-- Table State
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS State(
+stateId INT Primary Key NOT NULL AUTO_INCREMENT,
+state varchar(45)
+);
+
+
 
 -- -----------------------------------------------------
 -- Table Address
@@ -15,9 +38,11 @@ CREATE TABLE IF NOT EXISTS Address (
   addressId INT Primary key NOT NULL AUTO_INCREMENT,
   street VARCHAR(45),
   city VARCHAR(45),
-  state VARCHAR(45),
+  stateId INT NOT NULL,
   zip VARCHAR(45),
-  country VARCHAR(45)
+  countryId INT NOT NULL,
+  FOREIGN KEY(stateId) REFERENCES State(stateId),
+  FOREIGN KEY(countryId) REFERENCES Country(countryId)
 );
 
 
@@ -109,35 +134,71 @@ CREATE TABLE IF NOT EXISTS InvoiceItem (
 
 
 -- -----------------------------------------------------
+-- Insert Country -->Person 
+-- -----------------------------------------------------
+INSERT INTO Country(countryId,country) VALUES (1,'US');
+INSERT INTO Country(countryId,country) VALUES (2,'IN');
+-- -----------------------------------------------------
+
+
+
+-- -----------------------------------------------------
+-- Insert State --> Person
+-- -----------------------------------------------------
+INSERT INTO State(stateId, state) VALUES(1,'OR');
+INSERT INTO State(stateId, state) VALUES(2,'UT');
+INSERT INTO State(stateId, state) VALUES(3,'TX');
+INSERT INTO State(stateId, state) VALUES(4,'WY');
+INSERT INTO State(stateId, state) VALUES(5,'FL');
+INSERT INTO State(stateId, state) VALUES(6,'GA');
+INSERT INTO State(stateId, state) VALUES(7,'OK');
+INSERT INTO State(stateId, state) VALUES(8,'NM');
+INSERT INTO State(stateId, state) VALUES(9,'SD');
+
+-- -----------------------------------------------------
+-- Insert State --> Store
+-- -----------------------------------------------------
+
+INSERT INTO State(stateId, state) VALUES(10,'UA');
+INSERT INTO State(stateId, state) VALUES(11,'RE');
+INSERT INTO State(stateId, state) VALUES(12,'ID');
+INSERT INTO State(stateId, state) VALUES(13,'FK');
+INSERT INTO State(stateId, state) VALUES(14,'TP');
+INSERT INTO State(stateId, state) VALUES(15,'SC');
+INSERT INTO State(stateId, state) VALUES(16,'CA');
+
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
 -- Insert Address -> Person
 -- -----------------------------------------------------
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (1,'2438 Norway Maple Lane','Lakehaven','OR','54164','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (2,'5 Fair Oaks Hill','Courdale','UT','11348','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (3,'6 Loftsgordon Street','Dorland','TX','92587','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (4,'19428 Sherman Avenue','Clearford','WY','70291','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (5,'65 High Crossing Court','Rosville','FL','17477','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (6,'9 Ridgeview Parkway','Bidborn','GA','41438','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (7,'233 Dwight Park','Valbury','FL','66200','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (8,'60 Armistice Lane','Rockmary','OK','64429','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (9,'51325 Oakridge Plaza','Arlington','NM','15967','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (10,'5976 Del Mar Center','Benling Grove','FL','81257','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (11,'8641 Melvin Park','North Sudton','SD','22777','US');
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (1,'2438 Norway Maple Lane','Lakehaven',1,'54164',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (2,'5 Fair Oaks Hill','Courdale',2,'11348',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (3,'6 Loftsgordon Street','Dorland',3,'92587',2);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryid) VALUES (4,'19428 Sherman Avenue','Clearford',4,'70291',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (5,'65 High Crossing Court','Rosville',5,'17477',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (6,'9 Ridgeview Parkway','Bidborn',6,'41438',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (7,'233 Dwight Park','Valbury',5,'66200',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (8,'60 Armistice Lane','Rockmary',7,'64429',2);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (9,'51325 Oakridge Plaza','Arlington',8,'15967',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (10,'5976 Del Mar Center','Benling Grove',5,'81257',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (11,'8641 Melvin Park','North Sudton',9,'22777',1);
 -- -----------------------------------------------------
 
 
 -- -----------------------------------------------------
 -- Insert Address -> Store
 -- -----------------------------------------------------
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (12,'775 Linden Street','Arboga','UA','73224','SE');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (13,'0608 Grayhawk Street','Fort Myers','FL','33994','US');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (14,'1 Pepper Wood Park','Shchigry','RE','39950','RU');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (15,'7 Hayes Place','Newcastle','ID','60657','KN');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (16,'7 Barby Park','Poiares','FK','518344','PT');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (17,'23977 Carberry Alley','Zebrzydowice','TP','43410','PL');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (18,'680 Leroy Lane','Pushkin','ST','196627','RU');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (19,'700 Warbler Alley','Bungo Takada shi','PL','870617','JP');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (20,'700 Warbler Alley','Santa Monica','CA','49861','KL');
-INSERT INTO Address(addressId,street,city,state,zip,country) VALUES (21,'30019 Mcbride Crossing','Las Vegas','SC','11095','PH');
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (12,'775 Linden Street','Arboga',11,'73224',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (13,'0608 Grayhawk Street','Fort Myers',5,'33994',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (14,'1 Pepper Wood Park','Shchigry',11,'39950',2);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (15,'7 Hayes Place','Newcastle',12,'60657',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (16,'7 Barby Park','Poiares',13,'518344',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (17,'23977 Carberry Alley','Zebrzydowice',14,'43410',2);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (18,'680 Leroy Lane','Pushkin',15,'196627',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (19,'700 Warbler Alley','Bungo Takada shi',10,'870617',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (20,'700 Warbler Alley','Santa Monica',16,'49861',1);
+INSERT INTO Address(addressId,street,city,stateId,zip,countryId) VALUES (21,'30019 Mcbride Crossing','Las Vegas',15,'11095',1);
 -- -----------------------------------------------------
 
 
@@ -201,11 +262,11 @@ INSERT INTO Store(storeId,storeCode,managerId,addressId) VALUES (10,'e51f4e',7,2
 -- -----------------------------------------------------
 -- Insert Invoice
 -- -----------------------------------------------------
-INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (1,'INV001',1,1,2,'2022-03-17');
-INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (2,'INV002',6,8,5,'2022-05-29');
-INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (3,'INV003',4,11,9,'2022-10-01');
-INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (4,'INV004',7,12,6,'2022-07-09');
-INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salespersonId,date) VALUES (5,'INV001',1,1,1,'2022-03-17');
+INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salesPersonId,date) VALUES (1,'INV001',1,1,2,'2022-03-17');
+INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salesPersonId,date) VALUES (2,'INV002',6,8,5,'2022-05-29');
+INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salesPersonId,date) VALUES (3,'INV003',4,11,9,'2022-10-01');
+INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salesPersonId,date) VALUES (4,'INV004',7,12,6,'2022-07-09');
+INSERT INTO Invoice(invoiceId,invoiceCode,storeId,customerId,salesPersonId,date) VALUES (5,'INV001',1,1,1,'2022-03-17');
 -- -----------------------------------------------------
 
 
@@ -241,30 +302,29 @@ INSERT INTO Item(itemId,itemCode,type,name,hourlyRate) VALUES (14,'d4r1c7d','S',
 -- -----------------------------------------------------
 -- Insert InvoiceItem --> Purchase
 -- -----------------------------------------------------
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,purchasePrice) VALUES (1,1,1,25000);
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,purchasePrice) VALUES (2,3,4,20000);
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,purchasePrice) VALUES (3,2,5,525000);
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,purchasePrice) VALUES (4,4,3,15000);
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,purchasePrice) VALUES (1,1,1,25000);
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,purchasePrice) VALUES (2,3,4,20000);
+INSERT INTO InvoiceItem(InvoiceItemId,invoiceId,itemId,purchasePrice) VALUES (3,2,5,525000);
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,purchasePrice) VALUES (4,4,3,15000);
 
 
 -- -----------------------------------------------------
 -- Insert InvoiceItem --> Lease
 -- -----------------------------------------------------
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,leaseRate,startDate,endDate) VALUES (5,1,2,4200,'2020-02-15','2022-03-15');
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,leaseRate,startDate,endDate) VALUES (6,3,5,5000,'2021-04-19','2022-02-12');
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,leaseRate,startDate,endDate) VALUES (7,4,1,7500,'2022-06-16','2022-10-29');
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,leaseRate,startDate,endDate) VALUES (5,1,2,4200,'2020-02-15','2022-03-15');
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,leaseRate,startDate,endDate) VALUES (6,3,5,5000,'2021-04-19','2022-02-12');
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,leaseRate,startDate,endDate) VALUES (7,4,1,7500,'2022-06-16','2022-10-29');
 
 
 -- -----------------------------------------------------
 -- Insert InvoiceItem --> Product
 -- -----------------------------------------------------
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,quantity) VALUES (8,2,8,157);
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,quantity) VALUES (9,3,9,75);
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,quantity) VALUES (25,3,9,75);
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,quantity) VALUES (8,2,8,157);
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,quantity) VALUES (9,3,9,75);
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,quantity) VALUES (25,3,9,75);
 
 
 -- -----------------------------------------------------
 -- Insert InvoiceItem --> Service
 -- -----------------------------------------------------
-INSERT INTO InvoiceItem(invoiceitemId,invoiceId,itemId,hoursBilled) VALUES (10,1,12,5);
-
+INSERT INTO InvoiceItem(invoiceItemId,invoiceId,itemId,hoursBilled) VALUES (10,1,12,5);
