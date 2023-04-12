@@ -38,9 +38,7 @@ public class Person {
 		return lastName + "," + firstName;
 	}
 	
-	
 	public String PersonInfotoString() {
 		return (String.format("%s  (%s : [%s]\n  %s", this.getName(), this.getPersonCode(), this.email, this.address.DatetoString() ));
 	}
 }	
-
