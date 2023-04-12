@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO: ALL Illegal state exceptions
-
+//TODO: Convert to HashMaps
 
 public class DataBaseLoader {
 
