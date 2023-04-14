@@ -13,7 +13,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DataBaseLoader {
+public class DatabaseLoader {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
@@ -94,8 +94,8 @@ public class DataBaseLoader {
 				String firstName = rs.getString("p.firstName");
 				int addressId = rs.getInt("p.addressId");
 
-				Address a = DataBaseLoader.getDetailedAddress(addressId);
-				List<String> emails = DataBaseLoader.getemailList(rs.getInt("p.personId"));
+				Address a = DatabaseLoader.getDetailedAddress(addressId);
+				List<String> emails = DatabaseLoader.getemailList(rs.getInt("p.personId"));
 
 				p = new Person(personCode, lastName, firstName, a, emails);
 
@@ -156,8 +156,8 @@ public class DataBaseLoader {
 				String firstName = rs.getString("p.firstName");
 				int addressId = rs.getInt("p.addressId");
 				int personId = rs.getInt("p.personId");
-				Address a = DataBaseLoader.getDetailedAddress(addressId);
-				List<String> emails = DataBaseLoader.getemailList(personId);
+				Address a = DatabaseLoader.getDetailedAddress(addressId);
+				List<String> emails = DatabaseLoader.getemailList(personId);
 
 				p = new Person(personCode, lastName, firstName, a, emails);
 
@@ -258,8 +258,8 @@ public class DataBaseLoader {
 				String storeCode = rs.getString("storeCode");
 				int managerId = rs.getInt("managerId");
 				int addressId = rs.getInt("addressId");
-				Address a = DataBaseLoader.getDetailedAddress(addressId);
-				Person p = DataBaseLoader.getDetailedPerson(managerId);
+				Address a = DatabaseLoader.getDetailedAddress(addressId);
+				Person p = DatabaseLoader.getDetailedPerson(managerId);
 				// storeId
 				s = new Store(storeId, storeCode, p, a);
 
@@ -320,8 +320,8 @@ public class DataBaseLoader {
 				String invoiceCode = rs.getString("invoiceCode");
 				int customerId = rs.getInt("customerId");
 				int salespersonId = rs.getInt("salespersonId");
-				Person c = DataBaseLoader.getDetailedPerson(customerId);
-				Person m = DataBaseLoader.getDetailedPerson(salespersonId);
+				Person c = DatabaseLoader.getDetailedPerson(customerId);
+				Person m = DatabaseLoader.getDetailedPerson(salespersonId);
 				String date = rs.getString("date");
 				Integer storeId = rs.getInt("s.storeId");
 				Store storeCode = stores.get((storeId));

@@ -106,10 +106,10 @@ public class InvoiceReport {
 		Configurator.initialize(new DefaultConfiguration());
 		Configurator.setRootLevel(Level.INFO);
 		
-		HashMap<Integer, Store> storesDB = DataBaseLoader.loadStore();
-		HashMap<Integer,Invoice> invoiceDB = DataBaseLoader.getInvoices(storesDB);
+		HashMap<Integer, Store> storesDB = DatabaseLoader.loadStore();
+		HashMap<Integer,Invoice> invoiceDB = DatabaseLoader.getInvoices(storesDB);
 		@SuppressWarnings("unused")
-		List<Item> itemDB = DataBaseLoader.getItemList(invoiceDB);
+		List<Item> itemDB = DatabaseLoader.getItemList(invoiceDB);
 		
 		
 		summaryReport(Invoice.sortByTotal(invoiceDB));
