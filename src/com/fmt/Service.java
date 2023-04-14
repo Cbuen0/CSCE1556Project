@@ -46,7 +46,7 @@ public class Service extends Item {
 	}
 
 	public String itemInfoToString() {
-		return (String.format("\n%s    (Service)    %s     \n 	   %.2f hours @ %.2f/hr			\n\t\t\t\t\t\t\t $ %.2f", 
+		return (String.format("\n%s    (Service)    %s     \n 	   %.2f hours @ %.2f/hr			\n\t\t\t\t\t\t\t         $ %.2f", 
 				this.getCode(), 
 				this.getName(), 
 				this.getHoursBilled(),

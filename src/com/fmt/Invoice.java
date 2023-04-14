@@ -154,7 +154,7 @@ public class Invoice {
 				"\n\nInvoice   %s\n" + "Store     %s\n" + "Date      %s\n" + "Customer:   \n" + "%s" + "\n\n"
 						+ "\nSales Person:" + "\n%s",
 				getInvoiceCode(), getStore().getStoreCode(), getDate(), getCustomer().PersonInfotoString(),
-				getCustomer().PersonInfotoString()));
+				getSalesManager().PersonInfotoString()));
 
 		totalReport.append(String.format("""
 				\nItem                                                             Total
@@ -173,9 +173,9 @@ public class Invoice {
 				\n+---------------------------------------------------------------------------+
 				\n"""));
 		totalReport.append(String.format(
-				"                                                    SubTotal: $ %.2f\n "
-						+ "                                                        Tax: $   %.2f\n "
-						+ "                                                 GrandTotal: $ %.2f\n ",
+				"                                                    SubTotal: $  %.2f\n "
+						+ "                                                        Tax: $    %.2f\n "
+						+ "                                                 GrandTotal: $  %.2f\n ",
 				subTotal, totalTax, grandTotal));
 
 		return totalReport.toString();

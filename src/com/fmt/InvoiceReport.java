@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.DefaultConfiguration;
+
 public class InvoiceReport {
 
 	public static <T> void summaryReport(HashMap<T, Invoice> invoices) {
@@ -78,6 +82,7 @@ public class InvoiceReport {
 		System.out.println(totalReport);
 
 	}
+	
 	//prints Summary of Invoice Items.
 	public static <T> void invoiceItemsSummary(HashMap<T, Invoice> invoices) {
 		for (Invoice i: invoices.values()) {
@@ -92,31 +97,19 @@ public class InvoiceReport {
 //		HashMap<String, Store> stores = LoadData.parseStoreFile(persons);
 //		HashMap<String, Invoice> invoices = LoadData.parseInvoiceDataFile(stores, persons);
 //		List<Item> updatedInvoices = LoadData.parseInvoiceItemFile(invoices);
-		
-//		Adds items to invoice
-		
-		
-//		for (String key : invoices.keySet()) {
-//			Invoice i = invoices.get(key);
-//			List<Item> updatedInvoicesDB = DataBaseLoader.itemList(i);
-//		}
 //		
-//		//associates store and invoice
-//		for(String key : stores.keySet()) {
-//			Store s = stores.get(key);
-//			HashMap<String, Invoice> invoicesDB = DataBaseLoader.invoiceList(s);
-//			
-//		}
+//		summaryReport(Invoice.sortByTotal(invoices));
+//		salesSummaryReport(Store.sortByNames(stores));
+//		invoiceItemsSummary(invoices);
+//		
+//		
+		Configurator.initialize(new DefaultConfiguration());
+		Configurator.setRootLevel(Level.INFO);
 		
-		//associates stores with person
 		HashMap<Integer, Store> storesDB = DataBaseLoader.loadStore();
 		HashMap<Integer,Invoice> invoiceDB = DataBaseLoader.getInvoices(storesDB);
 		@SuppressWarnings("unused")
-		List<Item> itemDB = DataBaseLoader.itemList(invoiceDB);
-		
-		
-		//person
-		//HashMap<String, Person> personsDB = DataBaseLoader.personMap();
+		List<Item> itemDB = DataBaseLoader.getItemList(invoiceDB);
 		
 		
 		summaryReport(Invoice.sortByTotal(invoiceDB));

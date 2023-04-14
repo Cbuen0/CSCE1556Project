@@ -12,8 +12,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Lease extends Equipment {
-	//TODO: get rid of contract
-	//private String contract;
 	private double leaseRate;
 	private String startDate;
 	private String endDate;
@@ -25,12 +23,7 @@ public class Lease extends Equipment {
 		this.leaseRate = leaseRate;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		//this.contract = contract;
 	}
-
-//	public String getContract() {
-//		return contract;
-//	}
 	
 	public double getLeaseRate() {
 		return leaseRate;
