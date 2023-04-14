@@ -1,4 +1,5 @@
 package com.fmt;
+
 /**
  * Author: Carlos Bueno, Sowparnika Ssandhya
 
@@ -50,7 +51,8 @@ public class InvoiceReport {
 
 		System.out.println(totalReport);
 	}
-	//prints summary of the sales report.
+
+	// prints summary of the sales report.
 	public static <T> void salesSummaryReport(HashMap<T, Store> stores) {
 		StringBuilder totalReport = new StringBuilder();
 
@@ -82,36 +84,37 @@ public class InvoiceReport {
 		System.out.println(totalReport);
 
 	}
-	
-	//prints Summary of Invoice Items.
+
+	// prints Summary of Invoice Items.
 	public static <T> void invoiceItemsSummary(HashMap<T, Invoice> invoices) {
-		for (Invoice i: invoices.values()) {
+		for (Invoice i : invoices.values()) {
 			System.out.println(i);
 		}
 	}
 
-	
+	public static void csvInvoiceReport() {
+
+		HashMap<String, Person> persons = LoadData.mapPersonFile();
+		HashMap<String, Store> stores = LoadData.parseStoreFile(persons);
+		HashMap<String, Invoice> invoices = LoadData.parseInvoiceDataFile(stores, persons);
+		List<Item> updatedInvoices = LoadData.parseInvoiceItemFile(invoices);
+
+		summaryReport(Invoice.sortByTotal(invoices));
+		salesSummaryReport(Store.sortByNames(stores));
+		invoiceItemsSummary(invoices);
+
+	}
+
 	public static void main(String[] args) {
 
-//		HashMap<String, Person> persons = LoadData.mapPersonFile();
-//		HashMap<String, Store> stores = LoadData.parseStoreFile(persons);
-//		HashMap<String, Invoice> invoices = LoadData.parseInvoiceDataFile(stores, persons);
-//		List<Item> updatedInvoices = LoadData.parseInvoiceItemFile(invoices);
-//		
-//		summaryReport(Invoice.sortByTotal(invoices));
-//		salesSummaryReport(Store.sortByNames(stores));
-//		invoiceItemsSummary(invoices);
-//		
-//		
 		Configurator.initialize(new DefaultConfiguration());
 		Configurator.setRootLevel(Level.INFO);
-		
+
 		HashMap<Integer, Store> storesDB = DatabaseLoader.loadStore();
-		HashMap<Integer,Invoice> invoiceDB = DatabaseLoader.getInvoices(storesDB);
+		HashMap<Integer, Invoice> invoiceDB = DatabaseLoader.getInvoices(storesDB);
 		@SuppressWarnings("unused")
 		List<Item> itemDB = DatabaseLoader.getItemList(invoiceDB);
-		
-		
+
 		summaryReport(Invoice.sortByTotal(invoiceDB));
 		salesSummaryReport(Store.sortByNames(storesDB));
 		invoiceItemsSummary(invoiceDB);

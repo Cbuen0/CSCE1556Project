@@ -19,7 +19,7 @@ public class DatabaseLoader {
 
 	public static Address getDetailedAddress(int addressId) {
 
-		Address a = null;
+		Address address = null;
 
 		Connection conn = DatabaseInfo.getConnection();
 
@@ -41,7 +41,7 @@ public class DatabaseLoader {
 				String zip = rs.getString("a.zip");
 				String country = rs.getString("c.country");
 
-				a = new Address(street, city, state, zip, country);
+				address = new Address(street, city, state, zip, country);
 
 			} else {
 				LOGGER.error("SQLException : Address not found. ");
@@ -50,7 +50,7 @@ public class DatabaseLoader {
 
 			rs.close();
 			ps.close();
-			conn.close();
+			DatabaseInfo.closeConnection(conn);
 
 		} catch (SQLException e) {
 			LOGGER.error("SQLException : ");
@@ -70,11 +70,11 @@ public class DatabaseLoader {
 			throw new RuntimeException(e);
 		}
 
-		return a;
+		return address;
 	}
 
 	public static Person getDetailedPerson(int personId) {
-		Person p = null;
+		Person person = null;
 
 		Connection conn = DatabaseInfo.getConnection();
 
@@ -97,7 +97,7 @@ public class DatabaseLoader {
 				Address a = DatabaseLoader.getDetailedAddress(addressId);
 				List<String> emails = DatabaseLoader.getemailList(rs.getInt("p.personId"));
 
-				p = new Person(personCode, lastName, firstName, a, emails);
+				person = new Person(personCode, lastName, firstName, a, emails);
 
 			} else {
 				LOGGER.error("SQLException : Person not found. ");
@@ -107,7 +107,7 @@ public class DatabaseLoader {
 
 			rs.close();
 			ps.close();
-			conn.close();
+			DatabaseInfo.closeConnection(conn);
 		} catch (SQLException e) {
 			LOGGER.error("SQLException : ");
 
@@ -128,7 +128,7 @@ public class DatabaseLoader {
 			throw new RuntimeException(e);
 		}
 
-		return p;
+		return person;
 	}
 
 	public static HashMap<String, Person> personMap() {
@@ -136,7 +136,7 @@ public class DatabaseLoader {
 
 		LOGGER.info("Loading all person data...");
 
-		Person p = null;
+		Person person = null;
 
 		Connection conn = DatabaseInfo.getConnection();
 
@@ -159,9 +159,9 @@ public class DatabaseLoader {
 				Address a = DatabaseLoader.getDetailedAddress(addressId);
 				List<String> emails = DatabaseLoader.getemailList(personId);
 
-				p = new Person(personCode, lastName, firstName, a, emails);
+				person = new Person(personCode, lastName, firstName, a, emails);
 
-				personMap.put(personCode, p);
+				personMap.put(personCode, person);
 
 			} else {
 				LOGGER.error("SQLException : Person not found. ");
@@ -170,7 +170,7 @@ public class DatabaseLoader {
 
 			rs.close();
 			ps.close();
-			conn.close();
+			DatabaseInfo.closeConnection(conn);
 		} catch (SQLException e) {
 			LOGGER.error("SQLException : ");
 
@@ -214,7 +214,7 @@ public class DatabaseLoader {
 			}
 			rs.close();
 			ps.close();
-			conn.close();
+			DatabaseInfo.closeConnection(conn);
 		} catch (SQLException e) {
 			LOGGER.error("SQLException : ");
 			e.printStackTrace();
@@ -241,7 +241,7 @@ public class DatabaseLoader {
 	public static HashMap<Integer, Store> loadStore() {
 		List<Store> storeList = new ArrayList<Store>();
 		LOGGER.info("Loading all stores...");
-		Store s = null;
+		Store store = null;
 
 		Connection conn = DatabaseInfo.getConnection();
 
@@ -258,17 +258,16 @@ public class DatabaseLoader {
 				String storeCode = rs.getString("storeCode");
 				int managerId = rs.getInt("managerId");
 				int addressId = rs.getInt("addressId");
-				Address a = DatabaseLoader.getDetailedAddress(addressId);
-				Person p = DatabaseLoader.getDetailedPerson(managerId);
-				// storeId
-				s = new Store(storeId, storeCode, p, a);
+				Address address = DatabaseLoader.getDetailedAddress(addressId);
+				Person people = DatabaseLoader.getDetailedPerson(managerId);
+				store = new Store(storeId, storeCode, people, address);
 
-				storeList.add(s);
+				storeList.add(store);
 
 			}
 			rs.close();
 			ps.close();
-			conn.close();
+			DatabaseInfo.closeConnection(conn);
 		} catch (SQLException e) {
 			LOGGER.error("SQLException : ");
 
@@ -277,8 +276,8 @@ public class DatabaseLoader {
 		}
 
 		HashMap<Integer, Store> storeMap = new HashMap<Integer, Store>();
-		for (Store store : storeList) {
-			storeMap.put(store.getStoreId(), store);
+		for (Store storeL : storeList) {
+			storeMap.put(storeL.getStoreId(), storeL);
 		}
 
 		try {
@@ -303,7 +302,6 @@ public class DatabaseLoader {
 		LOGGER.info("Loading all invoices...");
 		Connection conn = DatabaseInfo.getConnection();
 
-		// get store code
 		String invoiceQuery = "Select i.invoiceId, i.invoiceCode, i.customerId, i.salespersonId, date, s.storeId"
 				+ "    From Invoice i" + "    Join Store s" + "    On i.storeId = s.storeId;";
 
@@ -320,23 +318,22 @@ public class DatabaseLoader {
 				String invoiceCode = rs.getString("invoiceCode");
 				int customerId = rs.getInt("customerId");
 				int salespersonId = rs.getInt("salespersonId");
-				Person c = DatabaseLoader.getDetailedPerson(customerId);
-				Person m = DatabaseLoader.getDetailedPerson(salespersonId);
+				Person customer = DatabaseLoader.getDetailedPerson(customerId);
+				Person salesPerson = DatabaseLoader.getDetailedPerson(salespersonId);
 				String date = rs.getString("date");
 				Integer storeId = rs.getInt("s.storeId");
 				Store storeCode = stores.get((storeId));
 
-				Invoice i = new Invoice(invoiceId, invoiceCode, storeCode, c, m, date);
+				Invoice i = new Invoice(invoiceId, invoiceCode, storeCode, customer, salesPerson, date);
 				invList.add(i);
 				storeCode.addInvoice(i);
 
 			}
 			rs.close();
 			ps.close();
-			conn.close();
+			DatabaseInfo.closeConnection(conn);
 		} catch (SQLException e) {
 			LOGGER.error("SQLException : ");
-
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
@@ -368,7 +365,7 @@ public class DatabaseLoader {
 		List<Item> itemList = new ArrayList<Item>();
 		LOGGER.info("Loading all items...");
 		Connection conn = DatabaseInfo.getConnection();
-		Item a = null;
+		Item item = null;
 
 		String itemQuery = "Select i.type, t.date, t.invoiceId, t.invoiceCode, i.itemId, i.name, i.model, i.itemCode,"
 				+ "	   i.hourlyRate, i.unit, i.unitPrice, v.quantity,"
@@ -393,37 +390,37 @@ public class DatabaseLoader {
 
 					if (rs.getString("v.leaseRate") == null) {
 						double purchasePrice = rs.getDouble("v.purchasePrice");
-						a = new Purchase(itemCode, itemName, model, purchasePrice);
+						item = new Purchase(itemCode, itemName, model, purchasePrice);
 
 					} else if (rs.getString("v.purchasePrice") == null) {
 						double leaseRate = rs.getDouble("v.leaseRate");
 						String startDate = rs.getString("v.startDate");
 						String endDate = rs.getString("v.endDate");
-						a = new Lease(itemCode, itemName, model, leaseRate, startDate, endDate);
+						item = new Lease(itemCode, itemName, model, leaseRate, startDate, endDate);
 					}
 
 				} else if (itemType.equals("P")) {
 					String unit = rs.getString("i.unit");
 					int unitPrice = rs.getInt("i.unitPrice");
 					int quantity = rs.getInt("v.quantity");
-					a = new Product(itemCode, itemName, unit, unitPrice, quantity);
+					item = new Product(itemCode, itemName, unit, unitPrice, quantity);
 
 				} else if (itemType.equals("S")) {
 					double hourlyRate = rs.getDouble("i.hourlyRate");
 					double hoursBilled = rs.getDouble("v.hoursBilled");
-					a = new Service(itemCode, itemName, hourlyRate, hoursBilled);
+					item = new Service(itemCode, itemName, hourlyRate, hoursBilled);
 				} else {
 					LOGGER.error("SQLException : Address not found. ");
 					throw new IllegalStateException("Address not found. ");
 				}
 
-				itemList.add(a);
-				newInvoice.addItem(a);
+				itemList.add(item);
+				newInvoice.addItem(item);
 
 			}
 			rs.close();
 			ps.close();
-			conn.close();
+			DatabaseInfo.closeConnection(conn);
 		} catch (SQLException e) {
 			LOGGER.error("SQLException : ");
 			e.printStackTrace();

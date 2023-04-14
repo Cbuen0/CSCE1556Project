@@ -153,8 +153,8 @@ public class Invoice {
 		totalReport.append(String.format(
 				"\n\nInvoice   %s\n" + "Store     %s\n" + "Date      %s\n" + "Customer:   \n" + "%s" + "\n\n"
 						+ "\nSales Person:" + "\n%s",
-				getInvoiceCode(), getStore().getStoreCode(), getDate(), getCustomer().PersonInfotoString(),
-				getSalesManager().PersonInfotoString()));
+				getInvoiceCode(), getStore().getStoreCode(), getDate(), getCustomer().personInfoToString(),
+				getSalesManager().personInfoToString()));
 
 		totalReport.append(String.format("""
 				\nItem                                                             Total

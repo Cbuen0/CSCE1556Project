@@ -32,4 +32,13 @@ public class DatabaseInfo {
 		return conn;
 	}
 
+	public static void closeConnection(Connection conn) {
+
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }
