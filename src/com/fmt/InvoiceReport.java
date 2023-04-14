@@ -9,10 +9,11 @@ package com.fmt;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InvoiceReport {
 
-	public static void summaryReport(HashMap<String, Invoice> invoices) {
+	public static <T> void summaryReport(HashMap<T, Invoice> invoices) {
 		StringBuilder totalReport = new StringBuilder();
 
 		totalReport.append(String.format("""
@@ -26,7 +27,7 @@ public class InvoiceReport {
 		double totalTax = 0;
 		double grandTotal = 0;
 
-		for (String list : invoices.keySet()) {
+		for (T list : invoices.keySet()) {
 			numOfItem = numOfItem + invoices.get(list).getItems().size();
 			totalTax = totalTax + invoices.get(list).getTaxes();
 			grandTotal = grandTotal + invoices.get(list).getGrandTotal();
@@ -46,7 +47,7 @@ public class InvoiceReport {
 		System.out.println(totalReport);
 	}
 	//prints summary of the sales report.
-	public static void salesSummaryReport(HashMap<String, Store> stores) {
+	public static <T> void salesSummaryReport(HashMap<T, Store> stores) {
 		StringBuilder totalReport = new StringBuilder();
 
 		totalReport.append(("""
@@ -58,7 +59,7 @@ public class InvoiceReport {
 
 		int numOfSales = 0;
 		double grandTotal = 0;
-		for (String list : stores.keySet()) {
+		for (T list : stores.keySet()) {
 			numOfSales = numOfSales + stores.get(list).invoices.size();
 			grandTotal = grandTotal + stores.get(list).getGrandTotal();
 
@@ -78,7 +79,7 @@ public class InvoiceReport {
 
 	}
 	//prints Summary of Invoice Items.
-	public static void invoiceItemsSummary(HashMap<String, Invoice> invoices) {
+	public static <T> void invoiceItemsSummary(HashMap<T, Invoice> invoices) {
 		for (Invoice i: invoices.values()) {
 			System.out.println(i);
 		}
@@ -87,15 +88,40 @@ public class InvoiceReport {
 	
 	public static void main(String[] args) {
 
-		HashMap<String, Person> persons = LoadData.mapPersonFile();
-		HashMap<String, Store> stores = LoadData.parseStoreFile(persons);
-		HashMap<String, Invoice> invoices = LoadData.parseInvoiceDataFile(stores, persons);
-		List<Item> updatedInvoices = LoadData.parseInvoiceItemFile(invoices);
+//		HashMap<String, Person> persons = LoadData.mapPersonFile();
+//		HashMap<String, Store> stores = LoadData.parseStoreFile(persons);
+//		HashMap<String, Invoice> invoices = LoadData.parseInvoiceDataFile(stores, persons);
+//		List<Item> updatedInvoices = LoadData.parseInvoiceItemFile(invoices);
+		
+//		Adds items to invoice
 		
 		
-		summaryReport(Invoice.sortByTotal(invoices));
-		salesSummaryReport(Store.sortByNames(stores));
-		invoiceItemsSummary(invoices);
+//		for (String key : invoices.keySet()) {
+//			Invoice i = invoices.get(key);
+//			List<Item> updatedInvoicesDB = DataBaseLoader.itemList(i);
+//		}
+//		
+//		//associates store and invoice
+//		for(String key : stores.keySet()) {
+//			Store s = stores.get(key);
+//			HashMap<String, Invoice> invoicesDB = DataBaseLoader.invoiceList(s);
+//			
+//		}
+		
+		//associates stores with person
+		HashMap<Integer, Store> storesDB = DataBaseLoader.loadStore();
+		HashMap<Integer,Invoice> invoiceDB = DataBaseLoader.getInvoices(storesDB);
+		@SuppressWarnings("unused")
+		List<Item> itemDB = DataBaseLoader.itemList(invoiceDB);
+		
+		
+		//person
+		//HashMap<String, Person> personsDB = DataBaseLoader.personMap();
+		
+		
+		summaryReport(Invoice.sortByTotal(invoiceDB));
+		salesSummaryReport(Store.sortByNames(storesDB));
+		invoiceItemsSummary(invoiceDB);
 
 	}
 

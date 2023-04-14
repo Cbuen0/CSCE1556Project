@@ -121,14 +121,14 @@ public class Invoice {
 	};
 
 	// Compares Totals and sorts by totals
-	public static HashMap<String, Invoice> sortByTotal(HashMap<String, Invoice> hm) {
+	public static <T> HashMap<T, Invoice> sortByTotal(HashMap<T, Invoice> hm) {
 
 		// Create a list from elements of HashMap
-		List<Map.Entry<String, Invoice>> list = new LinkedList<Map.Entry<String, Invoice>>(hm.entrySet());
+		List<Map.Entry<T, Invoice>> list = new LinkedList<Map.Entry<T, Invoice>>(hm.entrySet());
 
 		// Sorts the list
-		Collections.sort(list, new Comparator<Map.Entry<String, Invoice>>() {
-			public int compare(Map.Entry<String, Invoice> o1, Map.Entry<String, Invoice> o2) {
+		Collections.sort(list, new Comparator<Map.Entry<T, Invoice>>() {
+			public int compare(Map.Entry<T, Invoice> o1, Map.Entry<T, Invoice> o2) {
 				if (o1.getValue().getGrandTotal() > o2.getValue().getGrandTotal()) {
 					return -1;
 				} else if (o1.getValue().getGrandTotal() > o2.getValue().getGrandTotal()) {
@@ -139,8 +139,8 @@ public class Invoice {
 			}
 		});
 
-		HashMap<String, Invoice> temp = new LinkedHashMap<String, Invoice>();
-		for (Map.Entry<String, Invoice> aa : list) {
+		HashMap<T, Invoice> temp = new LinkedHashMap<T, Invoice>();
+		for (Map.Entry<T, Invoice> aa : list) {
 			temp.put(aa.getKey(), aa.getValue());
 		}
 		return temp;

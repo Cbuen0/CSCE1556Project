@@ -32,6 +32,7 @@ public class Store {
 		this.storeCode = storeCode;
 		this.manager = manager;
 		this.address = address;
+		this.invoices = new ArrayList<Invoice>();
 	}
 	
 	public int getStoreId() {
@@ -86,15 +87,15 @@ public class Store {
 	}
 	
 	
-	public static HashMap<String, Store> sortByNames(HashMap<String, Store> hm){
+	public static <T> HashMap<T, Store> sortByNames(HashMap<T, Store> hm){
         // Creates a list from elements of HashMap
-        List<Map.Entry<String, Store> > list =
-               new LinkedList<Map.Entry<String, Store> >(hm.entrySet());
+        List<Map.Entry<T, Store> > list =
+               new LinkedList<Map.Entry<T, Store> >(hm.entrySet());
  
         // Sorts the list
-        Collections.sort(list, new Comparator<Map.Entry<String, Store> >() {
-            public int compare(Map.Entry<String, Store> o1,
-                               Map.Entry<String, Store> o2){
+        Collections.sort(list, new Comparator<Map.Entry<T, Store> >() {
+            public int compare(Map.Entry<T, Store> o1,
+                               Map.Entry<T, Store> o2){
             	int value;
             	value = o1.getValue().getManager().getLastName().compareTo(o2.getValue().getManager().getLastName());
             	if (value == 0) {
@@ -114,8 +115,8 @@ public class Store {
         });
      
         // puts data from sorted list to hashmap
-        HashMap<String, Store> temp = new LinkedHashMap<String, Store>();
-        for (Map.Entry<String, Store> aa : list) {
+        HashMap<T, Store> temp = new LinkedHashMap<T, Store>();
+        for (Map.Entry<T, Store> aa : list) {
             temp.put(aa.getKey(), aa.getValue());
         }
         return temp;
