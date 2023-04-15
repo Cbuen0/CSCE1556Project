@@ -2,7 +2,7 @@ package com.fmt;
 
 /**
  * Author: Carlos Bueno, Sowparnika Ssandhya
-
+ *
  * Date: 2023-03-10
  * 
  * This class give summary reports on sales and sale totals. 
@@ -18,6 +18,11 @@ import org.apache.logging.log4j.core.config.DefaultConfiguration;
 
 public class InvoiceReport {
 
+	/**
+	 * Prints the  total Summary Report 
+	 * @param <T>
+	 * @param invoices
+	 */
 	public static <T> void summaryReport(HashMap<T, Invoice> invoices) {
 		StringBuilder totalReport = new StringBuilder();
 
@@ -52,7 +57,11 @@ public class InvoiceReport {
 		System.out.println(totalReport);
 	}
 
-	// prints summary of the sales report.
+	/**
+	 * Prints the Sales Summary report of the store
+	 * @param <T>
+	 * @param stores
+	 */
 	public static <T> void salesSummaryReport(HashMap<T, Store> stores) {
 		StringBuilder totalReport = new StringBuilder();
 
@@ -85,14 +94,21 @@ public class InvoiceReport {
 
 	}
 
-	// prints Summary of Invoice Items.
+	/**
+	 * prints Summary of Invoice Items.
+	 * @param <T>
+	 * @param invoices
+	 */
 	public static <T> void invoiceItemsSummary(HashMap<T, Invoice> invoices) {
 		for (Invoice i : invoices.values()) {
 			System.out.println(i);
 		}
 	}
-
-	public static void csvInvoiceReport() {
+	
+	/**
+	 * Prints out various invoice reports using data from CSV files.
+	 */
+	public static void csvSalesReport() {
 
 		HashMap<String, Person> persons = LoadData.mapPersonFile();
 		HashMap<String, Store> stores = LoadData.parseStoreFile(persons);
@@ -102,7 +118,6 @@ public class InvoiceReport {
 		summaryReport(Invoice.sortByTotal(invoices));
 		salesSummaryReport(Store.sortByNames(stores));
 		invoiceItemsSummary(invoices);
-
 	}
 
 	public static void main(String[] args) {
@@ -112,13 +127,11 @@ public class InvoiceReport {
 
 		HashMap<Integer, Store> storesDB = DatabaseLoader.loadStore();
 		HashMap<Integer, Invoice> invoiceDB = DatabaseLoader.getInvoices(storesDB);
-		@SuppressWarnings("unused")
-		List<Item> itemDB = DatabaseLoader.getItemList(invoiceDB);
+		DatabaseLoader.getItemList(invoiceDB);
 
 		summaryReport(Invoice.sortByTotal(invoiceDB));
 		salesSummaryReport(Store.sortByNames(storesDB));
 		invoiceItemsSummary(invoiceDB);
-
 	}
 
 }
