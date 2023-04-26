@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
-
-
 /**
  * This is a collection of utility methods that define a general API for
  * interacting with the database supporting this application.
@@ -21,8 +18,7 @@ public class InvoiceData {
 	 * Removes all records from all tables in the database.
 	 */
 	public static void clearDatabase() {
-    //TODO: implement
-		
+		// TODO: implement
 
 	}
 
@@ -38,9 +34,9 @@ public class InvoiceData {
 	 * @param zip
 	 * @param country
 	 */
-	public static void addPerson(String personCode, String firstName, String lastName, String street,
-			String city, String state, String zip, String country) {
-        //TODO: implement
+	public static void addPerson(String personCode, String firstName, String lastName, String street, String city,
+			String state, String zip, String country) {
+		// TODO: implement
 		Connection conn = null;
 
 		try {
@@ -54,17 +50,18 @@ public class InvoiceData {
 		String query = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		//TODO: ?
+		// TODO: ?
 		int countryId = 0;
 		int stateId = 0;
 		int addressId = 0;
-		
+
 		try {
 			/////////////////////////////////////////////////////////
 			query = "Insert into State (state) values (?);";
 			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, state);
 			ps.executeUpdate();
+			//TODO: Where does this stuff go
 
 			ResultSet stateKey = ps.getGeneratedKeys();
 			stateKey.next();
@@ -95,7 +92,7 @@ public class InvoiceData {
 			addressKey.next();
 			addressId = addressKey.getInt(1);
 			/////////////////////////////////////////////////////////
-			
+
 			query = "Insert into Person (personCode, firstName, lastName, addressId) values(?,?,?,?);";
 			ps = conn.prepareStatement(query);
 			ps.setString(1, personCode);
@@ -118,7 +115,6 @@ public class InvoiceData {
 		return;
 	}
 
-
 	/**
 	 * Adds an email record corresponding person record corresponding to the
 	 * provided <code>personCode</code>
@@ -127,7 +123,7 @@ public class InvoiceData {
 	 * @param email
 	 */
 	public static void addEmail(String personCode, String email) {
-    //TODO: ????
+		// TODO: ????
 		Connection conn = null;
 
 		try {
@@ -142,15 +138,16 @@ public class InvoiceData {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		int personId = 0;
-		
+
 		try {
+
 			ps = conn.prepareStatement(query);
 			ps.setString(1, personCode);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				personId = rs.getInt("personId");
 			}
-			
+
 			query = "Insert into Email (personId, email) values (?,?);";
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, personId);
@@ -166,9 +163,9 @@ public class InvoiceData {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+		return;
 
 	}
-	
 
 	/**
 	 * Adds a store record to the database managed by the person identified by the
@@ -184,13 +181,64 @@ public class InvoiceData {
 	 */
 	public static void addStore(String storeCode, String managerCode, String street, String city, String state,
 			String zip, String country) {
-        //TODO: implement
+		// TODO: implement
+		Connection conn = null;
+
+		try {
+			conn = DriverManager.getConnection(DatabaseInfo.URL, DatabaseInfo.USERNAME, DatabaseInfo.PASSWORD);
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		String query = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int managerId = 0;
+		int addressId = 0;
+
+		try {
+
+			query = "Select personId From Person Where personCode = ?;";
+			ps = conn.prepareStatement(query);
+			ps.setString(1, managerCode);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				managerId = rs.getInt("personId");
+			}
+
+			query = "Select addressId From Person Where personId  = ?;";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, managerId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				addressId = rs.getInt("addressId");
+			}
+
+			query = "Insert into Store (storeCode, managerId, addressId) values (?,?,?);";
+			ps = conn.prepareStatement(query);
+			ps.setString(1, storeCode);
+			ps.setInt(2, managerId);
+			ps.setInt(3, addressId);
+			ps.executeUpdate();
+
+			rs.close();
+			ps.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return;
 
 	}
 
 	/**
-	 * Adds a product record to the database with the given <code>code</code>, <code>name</code> and
-	 * <code>unit</code> and <code>pricePerUnit</code>.
+	 * Adds a product record to the database with the given <code>code</code>,
+	 * <code>name</code> and <code>unit</code> and <code>pricePerUnit</code>.
 	 *
 	 * @param itemCode
 	 * @param name
@@ -198,9 +246,51 @@ public class InvoiceData {
 	 * @param pricePerUnit
 	 */
 	public static void addProduct(String code, String name, String unit, double pricePerUnit) {
-    //TODO: implement
+		// TODO: implement
 
+		Connection conn = null;
+
+		try {
+			conn = DriverManager.getConnection(DatabaseInfo.URL, DatabaseInfo.USERNAME, DatabaseInfo.PASSWORD);
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		String query = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String type = "P";
+
+		try {
+			
+			query = "Insert into Item (itemCode, type, name, unit, unitPrice) values(?,?,?,?);";
+			ps = conn.prepareStatement(query);
+			ps.setString(1, code);
+			ps.setString(2, type);
+			ps.setString(3, name);
+			ps.setString(4, unit);
+			ps.setDouble(5, pricePerUnit);
+			rs = ps.executeQuery();
+			
+			ps.executeUpdate();
+
+
+			rs.close();
+			ps.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		return;
 	}
+
+
 
 	/**
 	 * Adds an equipment record to the database with the given <code>code</code>,
@@ -211,7 +301,7 @@ public class InvoiceData {
 	 * @param modelNumber
 	 */
 	public static void addEquipment(String code, String name, String modelNumber) {
-    //TODO: implement
+		// TODO: implement
 
 	}
 
@@ -224,7 +314,7 @@ public class InvoiceData {
 	 * @param modelNumber
 	 */
 	public static void addService(String code, String name, double costPerHour) {
-    //TODO: implement
+		// TODO: implement
 
 	}
 
@@ -235,16 +325,17 @@ public class InvoiceData {
 	 * @param storeCode
 	 * @param customerCode
 	 * @param salesPersonCode
-   * @param invoiceDate
+	 * @param invoiceDate
 	 */
-	public static void addInvoice(String invoiceCode, String storeCode, String customerCode, String salesPersonCode, String invoiceDate) {
-    //TODO: implement
+	public static void addInvoice(String invoiceCode, String storeCode, String customerCode, String salesPersonCode,
+			String invoiceDate) {
+		// TODO: implement
 
 	}
 
 	/**
-	 * Adds a particular product (identified by <code>itemCode</code>)
-	 * to a particular invoice (identified by <code>invoiceCode</code>) with the
+	 * Adds a particular product (identified by <code>itemCode</code>) to a
+	 * particular invoice (identified by <code>invoiceCode</code>) with the
 	 * specified quantity.
 	 *
 	 * @param invoiceCode
@@ -252,34 +343,37 @@ public class InvoiceData {
 	 * @param quantity
 	 */
 	public static void addProductToInvoice(String invoiceCode, String itemCode, int quantity) {
-    //TODO: implement
+		// TODO: implement
 
 	}
 
 	/**
-	 * Adds a particular equipment <i>purchase</i> (identified by <code>itemCode</code>) to a
-	 * particular invoice (identified by <code>invoiceCode</code>) at the given <code>purchasePrice</code>.
+	 * Adds a particular equipment <i>purchase</i> (identified by
+	 * <code>itemCode</code>) to a particular invoice (identified by
+	 * <code>invoiceCode</code>) at the given <code>purchasePrice</code>.
 	 *
 	 * @param invoiceCode
 	 * @param itemCode
 	 * @param purchasePrice
 	 */
 	public static void addEquipmentToInvoice(String invoiceCode, String itemCode, double purchasePrice) {
-    //TODO: implement
+		// TODO: implement
 
 	}
 
 	/**
-	 * Adds a particular equipment <i>lease</i> (identified by <code>itemCode</code>) to a
-	 * particular invoice (identified by <code>invoiceCode</code>) with the given 30-day
-	 * <code>periodFee</code> and <code>beginDate/endDate</code>.
+	 * Adds a particular equipment <i>lease</i> (identified by
+	 * <code>itemCode</code>) to a particular invoice (identified by
+	 * <code>invoiceCode</code>) with the given 30-day <code>periodFee</code> and
+	 * <code>beginDate/endDate</code>.
 	 *
 	 * @param invoiceCode
 	 * @param itemCode
 	 * @param amount
 	 */
-	public static void addEquipmentToInvoice(String invoiceCode, String itemCode, double periodFee, String beginDate, String endDate) {
-    //TODO: implement
+	public static void addEquipmentToInvoice(String invoiceCode, String itemCode, double periodFee, String beginDate,
+			String endDate) {
+		// TODO: implement
 
 	}
 
@@ -293,9 +387,8 @@ public class InvoiceData {
 	 * @param billedHours
 	 */
 	public static void addServiceToInvoice(String invoiceCode, String itemCode, double billedHours) {
-    //TODO: implement
+		// TODO: implement
 
 	}
-
 
 }
