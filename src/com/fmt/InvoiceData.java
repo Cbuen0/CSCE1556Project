@@ -599,6 +599,68 @@ public class InvoiceData {
 	 */
 	public static void addEquipmentToInvoice(String invoiceCode, String itemCode, double purchasePrice) {
 		// TODO: implement
+		
+		Connection conn = null;
+
+		try {
+			conn = DriverManager.getConnection(DatabaseInfo.URL, DatabaseInfo.USERNAME, DatabaseInfo.PASSWORD);
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		String query = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int invoiceId = 0;
+		int itemId = 0;
+		
+		
+		
+		try {
+			
+			query = "Select invoiceId From Invoice Where invoiceCode = ?;";
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, invoiceCode);
+			ps.executeUpdate();
+			//TODO: Where does this stuff go
+
+			ResultSet invoiceKey = ps.getGeneratedKeys();
+			invoiceKey.next();
+			invoiceId = invoiceKey.getInt(1);
+			/////////////////////////////////////////////////////////
+
+			query = "Select itemId From Item where itemCode = ?;";
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, itemCode);
+			ps.executeUpdate();
+
+			ResultSet itemKey = ps.getGeneratedKeys();
+			itemKey.next();
+			itemId = itemKey.getInt(1);
+			/////////////////////////////////////////////////////////
+
+			query = "Insert into InvoiceItem (invoiceId, itemId, purchasePrice) values(?,?,?);";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, invoiceId);
+			ps.setInt(2, itemId);
+			ps.setDouble(3, purchasePrice);
+			rs = ps.executeQuery();
+			ps.executeUpdate();
+
+
+			rs.close();
+			ps.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return;
+
 
 	}
 
@@ -615,6 +677,71 @@ public class InvoiceData {
 	public static void addEquipmentToInvoice(String invoiceCode, String itemCode, double periodFee, String beginDate,
 			String endDate) {
 		// TODO: implement
+		
+		Connection conn = null;
+
+		try {
+			conn = DriverManager.getConnection(DatabaseInfo.URL, DatabaseInfo.USERNAME, DatabaseInfo.PASSWORD);
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		String query = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int invoiceId = 0;
+		int itemId = 0;
+		
+		
+		
+		try {
+			
+			query = "Select invoiceId From Invoice Where invoiceCode = ?;";
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, invoiceCode);
+			ps.executeUpdate();
+			//TODO: Where does this stuff go
+
+			ResultSet invoiceKey = ps.getGeneratedKeys();
+			invoiceKey.next();
+			invoiceId = invoiceKey.getInt(1);
+			/////////////////////////////////////////////////////////
+
+			query = "Select itemId From Item where itemCode = ?;";
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, itemCode);
+			ps.executeUpdate();
+
+			ResultSet itemKey = ps.getGeneratedKeys();
+			itemKey.next();
+			itemId = itemKey.getInt(1);
+			/////////////////////////////////////////////////////////
+
+			query = "Insert into InvoiceItem (invoiceId, itemId, leaseRate, startDate, endDate) values(?,?,?,?,?);";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, invoiceId);
+			ps.setInt(2, itemId);
+			ps.setDouble(3, periodFee);
+			ps.setString(4,beginDate);
+			ps.setString(4,endDate);
+			//TODO: reading in as strings ok?
+			rs = ps.executeQuery();
+			ps.executeUpdate();
+
+
+			rs.close();
+			ps.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return;
+
 
 	}
 
@@ -629,6 +756,68 @@ public class InvoiceData {
 	 */
 	public static void addServiceToInvoice(String invoiceCode, String itemCode, double billedHours) {
 		// TODO: implement
+		
+		Connection conn = null;
+
+		try {
+			conn = DriverManager.getConnection(DatabaseInfo.URL, DatabaseInfo.USERNAME, DatabaseInfo.PASSWORD);
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		String query = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int invoiceId = 0;
+		int itemId = 0;
+		
+		
+		
+		try {
+			
+			query = "Select invoiceId From Invoice Where invoiceCode = ?;";
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, invoiceCode);
+			ps.executeUpdate();
+			//TODO: Where does this stuff go
+
+			ResultSet invoiceKey = ps.getGeneratedKeys();
+			invoiceKey.next();
+			invoiceId = invoiceKey.getInt(1);
+			/////////////////////////////////////////////////////////
+
+			query = "Select itemId From Item where itemCode = ?;";
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, itemCode);
+			ps.executeUpdate();
+
+			ResultSet itemKey = ps.getGeneratedKeys();
+			itemKey.next();
+			itemId = itemKey.getInt(1);
+			/////////////////////////////////////////////////////////
+
+			query = "Insert into InvoiceItem (invoiceId, itemId, hoursBilled) values(?,?,?);";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, invoiceId);
+			ps.setInt(2, itemId);
+			ps.setDouble(3, billedHours);
+			rs = ps.executeQuery();
+			ps.executeUpdate();
+
+
+			rs.close();
+			ps.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			System.out.println("SQLException: ");
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return;
+
 
 	}
 
