@@ -331,7 +331,7 @@ public class DatabaseLoader {
 					}
 				} else if (itemType.equals("P")) {
 					String unit = rs.getString("i.unit");
-					int unitPrice = rs.getInt("i.unitPrice");
+					double unitPrice = rs.getDouble("i.unitPrice");
 					int quantity = rs.getInt("v.quantity");
 					item = new Product(itemCode, itemName, unit, unitPrice, quantity);
 
