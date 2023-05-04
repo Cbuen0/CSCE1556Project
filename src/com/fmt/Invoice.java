@@ -99,6 +99,10 @@ public class Invoice {
 		return (String.format("%s\t   %s \t", this.store.getStoreCode(), this.salesManager.getName()));
 	}
 
+	public String toDBString() {
+		return (String.format("%s \t  %s   \t %s  \t%s  \t  %.2f \n", this.invoiceCode, this.store.getStoreCode(), this.customer.getName(), this.salesManager.getName(), this.getGrandTotal()));
+	}
+	
 	public double getTaxes() {
 		double totalTax = 0;
 		for (int i = 0; i < items.size(); i++) {
@@ -118,7 +122,7 @@ public class Invoice {
 
 	public double getGrandTotal() {
 		return getTaxes() + getTotal();
-	};
+	}
 
 	// Compares Totals and sorts by totals
 	public static <T> HashMap<T, Invoice> sortByTotal(HashMap<T, Invoice> hm) {
@@ -181,4 +185,53 @@ public class Invoice {
 		return totalReport.toString();
 	}
 
+	// Sort by grand total
+	public static Comparator<Invoice> compareByGrandTotal = new Comparator<Invoice>() {
+
+		public int compare(Invoice inv1, Invoice inv2) {
+			double invTotalA = inv1.getGrandTotal();
+			double invTotalB = inv2.getGrandTotal();
+
+			// adds bigger to the start
+			if (invTotalA < invTotalB) {
+				return 1;
+			} else if (invTotalA > invTotalB) {
+				return -1;
+			} else {
+				return 0;
+			}
+
+		}
+
+	};
+
+	// Sort by name alphabetically
+	public static Comparator<Invoice> compareByName = new Comparator<Invoice>() {
+
+		@Override
+		public int compare(Invoice p1, Invoice p2) {
+			String invPerson1 = p1.getCustomer().getName();
+			String invPerson2 = p2.getCustomer().getName();
+
+			return invPerson1.compareTo(invPerson2);
+		}
+
+	};
+
+	// Sort store by store code, then by salesperson name
+	public static Comparator<Invoice> compareByStore = new Comparator<Invoice>() {
+
+		public int compare(Invoice s1, Invoice s2) {
+			String invStore1 = s1.getStore().getStoreCode();
+			String invStore2 = s2.getStore().getStoreCode();
+			int storeResult = invStore1.compareTo(invStore2);
+
+			if (storeResult == 0) {
+				return s1.getSalesManager().getName().compareTo(s2.getSalesManager().getName());
+			}
+			return storeResult;
+
+		}
+
+	};
 }
