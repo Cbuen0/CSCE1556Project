@@ -100,9 +100,10 @@ public class Invoice {
 	}
 
 	public String toDBString() {
-		return (String.format("%s \t  %s   \t %s  \t%s  \t  %.2f \n", this.invoiceCode, this.store.getStoreCode(), this.customer.getName(), this.salesManager.getName(), this.getGrandTotal()));
+		return (String.format("%-9s %-10s %-22s %-22s $%9.2f\n", this.invoiceCode, this.store.getStoreCode(),
+				this.customer.getName(), this.salesManager.getName(), this.getGrandTotal()));
 	}
-	
+
 	public double getTaxes() {
 		double totalTax = 0;
 		for (int i = 0; i < items.size(); i++) {

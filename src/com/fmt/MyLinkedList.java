@@ -45,8 +45,9 @@ public class MyLinkedList<T> implements Iterable<T> {
 	 * @param item
 	 */
 	public void addElement(T item) {
-		if (item == null)
+		if (item == null) {
 			throw new IllegalArgumentException("Cannot insert null elements");
+		}
 		ListNode<T> newNode = new ListNode<T>(item);
 
 		if (head == null) {
@@ -71,18 +72,6 @@ public class MyLinkedList<T> implements Iterable<T> {
 			}
 		}
 		this.size++;
-	}
-
-	public static void main(String[] args) {
-		MyLinkedList<Integer> list = new MyLinkedList<Integer>(Integer::compare);
-
-		for (int i = 0; i < 30; i++) {
-			list.addElement(ThreadLocalRandom.current().nextInt(0, 100));
-		}
-
-		for (int i = 0; i < 30; i++) {
-			System.out.println(list.get(i));
-		}
 	}
 
 	/**
@@ -135,22 +124,6 @@ public class MyLinkedList<T> implements Iterable<T> {
 			T p = this.getListNode(position).getNode();
 			return p;
 		}
-
-	}
-
-	/**
-	 * Prints this list to the standard output.
-	 */
-	public void print() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[ ");
-		for (int i = 0; i < this.size - 1; i++) {
-			ListNode<T> u = this.getListNode(i);
-			sb.append(u.getNode() + ", ");
-		}
-		ListNode<T> u = this.getListNode(this.size - 1);
-		sb.append(u.getNode());
-		sb.append(" ]");
 
 	}
 

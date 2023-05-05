@@ -20,7 +20,8 @@ import org.apache.logging.log4j.core.config.DefaultConfiguration;
 public class InvoiceReport {
 
 	/**
-	 * Prints the  total Summary Report 
+	 * Prints the total Summary Report
+	 * 
 	 * @param <T>
 	 * @param invoices
 	 */
@@ -60,6 +61,7 @@ public class InvoiceReport {
 
 	/**
 	 * Prints the Sales Summary report of the store
+	 * 
 	 * @param <T>
 	 * @param stores
 	 */
@@ -97,6 +99,7 @@ public class InvoiceReport {
 
 	/**
 	 * prints Summary of Invoice Items.
+	 * 
 	 * @param <T>
 	 * @param invoices
 	 */
@@ -105,77 +108,24 @@ public class InvoiceReport {
 			System.out.println(i);
 		}
 	}
-	
-	
-//	public static <T> void salesByTotalReport(HashMap<Integer, Invoice> invoiceDB) {
-//		StringBuilder totalReport = new StringBuilder();
-//		MyLinkedList<Invoice> invoiceList = new MyLinkedList<Invoice>(Invoice.compareByGrandTotal);
-//		
-//		
-//		totalReport.append(("""
-//				+---------------------------------------------------------------------------+
-//				| Sales by Total                                                            |
-//				+---------------------------------------------------------------------------+
-//				Sale      Store            Customer         Salesperson             Total
-//				\n"""));
-//		for(Invoice invoice : invoiceDB.values()) {
-//			invoiceList.addElement(invoice);
-//		}
-//		
-//		for(int i=0;i<invoiceList.getSize();i++) {
-//			totalReport.append(invoiceList.get(i).toDBString());
-//		}
-//		
-//		System.out.println(totalReport);
-//		
-//		
-//	}
-//	
-	
-//	public static <T> void salesByCustomerReport(HashMap<Integer, Invoice> invoiceDB) {
-//		StringBuilder totalReport = new StringBuilder();
-//		MyLinkedList<Invoice> invoiceList = new MyLinkedList<Invoice>(Invoice.compareByName);
-//		
-//		
-//		totalReport.append(("""
-//				+---------------------------------------------------------------------------+
-//				| Sales by Customer                                                         |
-//				+---------------------------------------------------------------------------+
-//				Sale      Store            Customer         Salesperson             Total
-//				\n"""));
-//		
-//		for(Invoice invoice : invoiceDB.values()) {
-//			invoiceList.addElement(invoice);
-//		}
-//		
-//		for(int i=0;i<invoiceList.getSize();i++) {
-//			totalReport.append(invoiceList.get(i).toDBString());
-//		}
-//		
-//		System.out.println(totalReport);
-//		
-//		
-//	}
-	
-	
+
 	public static <T> void databaseReports(HashMap<Integer, Invoice> invoiceDB, Comparator<Invoice> comp, String type) {
 		MyLinkedList<Invoice> invoiceList = new MyLinkedList<Invoice>(comp);
-		
+
 		System.out.println("+---------------------------------------------------------------------------+");
-		System.out.println("| Sales by " + type +"                                                      ");
+		System.out.println("| Sales by " + type + "                                                      ");
 		System.out.println("+---------------------------------------------------------------------------+");
-		System.out.println("Sale      Store          Customer               Salesperson       Total");
-		
-		for(Invoice invoice : invoiceDB.values()) {
+		System.out.println("Sale      Store      Customer               Salesperson            Total");
+
+		for (Invoice invoice : invoiceDB.values()) {
 			invoiceList.addElement(invoice);
 		}
-		
-		for(int i=0;i<invoiceList.getSize();i++) {
+
+		for (int i = 0; i < invoiceList.getSize(); i++) {
 			System.out.print(invoiceList.get(i).toDBString());
 		}
 	}
-	
-	
+
 	/**
 	 * Prints out various invoice reports using data from CSV files.
 	 */
@@ -191,7 +141,10 @@ public class InvoiceReport {
 		invoiceItemsSummary(invoices);
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * Prints out various invoice reports using data from the database.
+	 */
+	public static void databaseSalesReport() {
 
 		Configurator.initialize(new DefaultConfiguration());
 		Configurator.setRootLevel(Level.INFO);
@@ -199,17 +152,28 @@ public class InvoiceReport {
 		HashMap<Integer, Store> storesDB = DatabaseLoader.loadStore();
 		HashMap<Integer, Invoice> invoiceDB = DatabaseLoader.getInvoices(storesDB);
 		DatabaseLoader.getItemList(invoiceDB);
-		
-		
+
 		summaryReport(Invoice.sortByTotal(invoiceDB));
 		salesSummaryReport(Store.sortByNames(storesDB));
 		invoiceItemsSummary(invoiceDB);
 
-		
-		databaseReports(invoiceDB, Invoice.compareByGrandTotal, "Total");
+	}
+
+	public static void databaseSortedSalesReport() {
+
+		HashMap<Integer, Store> storesDB = DatabaseLoader.loadStore();
+		HashMap<Integer, Invoice> invoiceDB = DatabaseLoader.getInvoices(storesDB);
+		DatabaseLoader.getItemList(invoiceDB);
+
 		databaseReports(invoiceDB, Invoice.compareByName, "Customer");
+		databaseReports(invoiceDB, Invoice.compareByGrandTotal, "Total");
 		databaseReports(invoiceDB, Invoice.compareByStore, "Store");
-		
+	}
+
+	public static void main(String[] args) {
+
+		InvoiceReport.csvSalesReport();
+
 	}
 
 }
